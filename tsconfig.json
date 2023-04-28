@@ -15,7 +15,11 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@/cart": ["./src/components/cart/index.ts"],
+      "@/layouts": ["./src/components/layouts/index.ts"],
+      "@/products": ["./src/components/products/index.ts"],
+      "@/ui": ["./src/components/ui/index.ts"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

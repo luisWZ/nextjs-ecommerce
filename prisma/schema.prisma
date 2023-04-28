@@ -1,0 +1,49 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  description String
+  images      String[]
+  inStock     Int
+  price       Int
+  sizes       ValidSizes[]
+  slug        String
+  tags        String[]
+  title       String
+  type        ValidTypes
+  gender      Gender[]
+}
+
+enum ValidSizes {
+  XS
+  S
+  M
+  L
+  XL
+  XXL
+  XXXL
+}
+
+enum ValidTypes {
+  shirts
+  pants
+  hoodies
+  hats
+}
+
+enum Gender {
+  men
+  women
+  kid
+  unisex
+}
