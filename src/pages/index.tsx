@@ -1,8 +1,8 @@
 import { Typography } from '@mui/material';
 
-import { ProductList } from '@/products';
 import { mockData } from '@/interfaces';
 import { ShopLayout } from '@/layouts';
+import { ProductList } from '@/products';
 
 export default function Home() {
   return (

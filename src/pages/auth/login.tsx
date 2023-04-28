@@ -24,9 +24,9 @@ const LoginPage = () => {
               Log In
             </Button>
           </Grid>
-          <Grid item xs={12} display='flex' justifyContent='flex-end'>
-            <NextLink href='/auth/register' passHref legacyBehavior>
-              <Link underline='always'>Create an Account</Link>
+          <Grid item xs={12} display="flex" justifyContent="flex-end">
+            <NextLink href="/auth/register" passHref legacyBehavior>
+              <Link underline="always">Create an Account</Link>
             </NextLink>
           </Grid>
         </Grid>

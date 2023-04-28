@@ -26,7 +26,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
       <Card>
         <CardActionArea>
           <NextLink href={`/product/slug`} legacyBehavior passHref prefetch={false}>
-          {/* <NextLink href={`/products/${slug}`} legacyBehavior passHref prefetch={false}> */}
+            {/* <NextLink href={`/products/${slug}`} legacyBehavior passHref prefetch={false}> */}
             <Link>
               <Box
                 display="flex"

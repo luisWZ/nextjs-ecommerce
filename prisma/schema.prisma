@@ -12,16 +12,21 @@ datasource db {
 
 model Product {
   id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  slug        String       @unique
+  tags        String[]
   description String
   images      String[]
   inStock     Int
   price       Int
   sizes       ValidSizes[]
-  slug        String
-  tags        String[]
   title       String
   type        ValidTypes
   gender      Gender[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@index([tags])
+  @@index([title])
 }
 
 enum ValidSizes {

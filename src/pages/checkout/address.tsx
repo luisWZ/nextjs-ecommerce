@@ -50,7 +50,7 @@ const AddressPage = () => {
         </Grid>
       </Grid>
 
-      <Box mt={5} display='flex' justifyContent='center'>
+      <Box mt={5} display="flex" justifyContent="center">
         <Button color="secondary" className="circular-btn" size="large">
           Review order
         </Button>

@@ -21,7 +21,7 @@ const SummaryPage = () => {
 
               <Divider sx={{ my: 1 }} />
 
-              <Box display="flex" justifyContent="space-between" alignItems='baseline'>
+              <Box display="flex" justifyContent="space-between" alignItems="baseline">
                 <Typography variant="subtitle1">Delivery address</Typography>
                 <NextLink href="/checkout/address" passHref legacyBehavior>
                   <Link underline="always">Edit</Link>
