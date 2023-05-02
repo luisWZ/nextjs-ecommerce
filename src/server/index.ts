@@ -1,3 +1,5 @@
 export * from './db';
-export * from './dbRepository';
+export * from './dbProductRepository';
+export * from './dbUserRepository';
+export * from './jwtService';
 export * from './logger';

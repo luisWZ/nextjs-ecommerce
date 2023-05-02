@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker/locale/es_MX';
 import { Prisma, PrismaClient } from '@prisma/client';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 const db = new PrismaClient();
 
@@ -60,6 +60,7 @@ async function loadUserData(): Promise<Prisma.Enumerable<Prisma.UserCreateManyIn
       email: 'admin@example.com',
       name: 'Admin',
       password: adminPassword,
+      role: 'ADMIN',
     },
     ...users,
   ];
