@@ -1,23 +1,23 @@
 import { Typography } from '@mui/material';
+import { Gender } from '@prisma/client';
 
 import { useProducts } from '@/hooks';
 import { ShopLayout } from '@/layouts';
 import { ProductList } from '@/products';
 import { FullScreenLoading } from '@/ui';
 
-export default function Home() {
-  const { products, isLoading } = useProducts('/products');
+const MenPage = () => {
+  const { products, isLoading } = useProducts(`/products?gender=${Gender.men}`);
 
   return (
-    <ShopLayout title="Teslo-Shop - Home" pageDescription="Official Teslo merchandise">
-      <Typography variant="h1" component="h1">
-        Store
-      </Typography>
-      <Typography variant="h2" sx={{ mb: 2 }}>
-        All products
+    <ShopLayout title="Teslo-Shop - Men" pageDescription="Official Teslo merchandise for men">
+      <Typography variant="h1" component="h1" mb={2}>
+        Men
       </Typography>
 
       {isLoading ? <FullScreenLoading /> : <ProductList products={products} />}
     </ShopLayout>
   );
-}
+};
+
+export default MenPage;

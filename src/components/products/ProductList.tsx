@@ -1,11 +1,10 @@
 import { Grid } from '@mui/material';
-
-import { IProduct } from '@/interfaces';
+import { Product } from '@prisma/client';
 
 import { ProductCard } from './ProductCard';
 
 interface ProductListProps {
-  products: IProduct[];
+  products: Product[];
 }
 
 export const ProductList = ({ products }: ProductListProps) => {

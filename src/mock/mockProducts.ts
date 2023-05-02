@@ -1,23 +1,37 @@
+import { Product } from '@prisma/client';
+
+/**
+ * @deprecated use @prisma/client interface
+ */
 export interface IProduct {
   description: string;
   images: string[];
   inStock: number;
   price: number;
-  sizes: ValidSizes[];
+  sizes: IValidSizes[];
   slug: string;
   tags: string[];
   title: string;
-  type: ValidTypes;
-  gender: Gender;
+  type: IValidTypes;
+  gender: IGender;
 }
 
-type Gender = 'men' | 'women' | 'kid' | 'unisex';
+/**
+ * @deprecated use only with IProduct interface
+ */
+type IGender = 'men' | 'women' | 'kids' | 'unisex';
 
-type ValidSizes = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL' | 'XXXL';
+/**
+ * @deprecated use only with IProduct interface
+ */
+type IValidSizes = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL' | 'XXXL';
 
-type ValidTypes = 'shirts' | 'pants' | 'hoodies' | 'hats';
+/**
+ * @deprecated use only with IProduct interface
+ */
+type IValidTypes = 'shirts' | 'pants' | 'hoodies' | 'hats';
 
-export const mockData: { products: IProduct[] } = {
+export const mockProducts: { products: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>[] } = {
   products: [
     {
       description:
@@ -565,7 +579,7 @@ export const mockData: { products: IProduct[] } = {
       type: 'shirts',
       tags: ['shirt'],
       title: 'Kids Cybertruck Long Sleeve Tee',
-      gender: 'kid',
+      gender: 'kids',
     },
     {
       description:
@@ -578,7 +592,7 @@ export const mockData: { products: IProduct[] } = {
       type: 'shirts',
       tags: ['shirt'],
       title: 'Kids Scribble T Logo Tee',
-      gender: 'kid',
+      gender: 'kids',
     },
     {
       description:
@@ -591,7 +605,7 @@ export const mockData: { products: IProduct[] } = {
       type: 'shirts',
       tags: ['shirt'],
       title: 'Kids Cybertruck Tee',
-      gender: 'kid',
+      gender: 'kids',
     },
     {
       description:
@@ -604,7 +618,7 @@ export const mockData: { products: IProduct[] } = {
       type: 'shirts',
       tags: ['shirt'],
       title: 'Kids Racing Stripe Tee',
-      gender: 'kid',
+      gender: 'kids',
     },
     {
       description:
@@ -617,7 +631,7 @@ export const mockData: { products: IProduct[] } = {
       type: 'shirts',
       tags: ['shirt'],
       title: 'Kids 3D T Logo Tee',
-      gender: 'kid',
+      gender: 'kids',
     },
     {
       description:
@@ -630,7 +644,7 @@ export const mockData: { products: IProduct[] } = {
       type: 'shirts',
       tags: ['shirt'],
       title: 'Kids Checkered Tee',
-      gender: 'kid',
+      gender: 'kids',
     },
     {
       description:
@@ -643,7 +657,7 @@ export const mockData: { products: IProduct[] } = {
       type: 'shirts',
       tags: ['shirt'],
       title: 'Made on Earth by Humans Onesie',
-      gender: 'kid',
+      gender: 'kids',
     },
     {
       description:
@@ -656,7 +670,7 @@ export const mockData: { products: IProduct[] } = {
       type: 'shirts',
       tags: ['shirt'],
       title: 'Scribble T Logo Onesie',
-      gender: 'kid',
+      gender: 'kids',
     },
     {
       description:
@@ -669,7 +683,7 @@ export const mockData: { products: IProduct[] } = {
       type: 'shirts',
       tags: ['shirt'],
       title: 'Zero Emissions (Almost) Onesie',
-      gender: 'kid',
+      gender: 'kids',
     },
     {
       description:
@@ -682,7 +696,7 @@ export const mockData: { products: IProduct[] } = {
       type: 'shirts',
       tags: ['shirt'],
       title: 'Kids Cyberquad Bomber Jacket',
-      gender: 'kid',
+      gender: 'kids',
     },
     {
       description:
@@ -695,7 +709,7 @@ export const mockData: { products: IProduct[] } = {
       type: 'shirts',
       tags: ['shirt'],
       title: 'Kids Corp Jacket',
-      gender: 'kid',
+      gender: 'kids',
     },
   ],
 };

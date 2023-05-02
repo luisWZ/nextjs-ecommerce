@@ -10,6 +10,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  email     String   @unique
+  password  String
+  name      String
+  role      Role     @default(CLIENT)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Role {
+  ADMIN
+  CLIENT
+}
+
 model Product {
   id          String       @id @default(auto()) @map("_id") @db.ObjectId
   slug        String       @unique
@@ -21,7 +36,7 @@ model Product {
   sizes       ValidSizes[]
   title       String
   type        ValidTypes
-  gender      Gender[]
+  gender      Gender
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
 
@@ -49,6 +64,6 @@ enum ValidTypes {
 enum Gender {
   men
   women
-  kid
+  kids
   unisex
 }

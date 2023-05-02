@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { db, logger } from '@/server';
+import { findProductsBySearchTerm, logger } from '@/server';
 import { messages } from '@/utils';
 
 import { SearchResponseData } from './searchResponseData';
@@ -16,22 +16,7 @@ export const searchProducts = async (
   }
 
   try {
-    const products = await db.product.findMany({
-      where: {
-        OR: [
-          { tags: { has: q.toLowerCase() } },
-          { slug: { contains: q, mode: 'insensitive' } },
-          { title: { contains: q, mode: 'insensitive' } },
-        ],
-      },
-      select: {
-        slug: true,
-        title: true,
-        price: true,
-        inStock: true,
-        images: true,
-      },
-    });
+    const products = await findProductsBySearchTerm(q);
     return res.status(200).json(products);
   } catch (error) {
     logger.error(error);

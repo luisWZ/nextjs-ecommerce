@@ -1,4 +1,6 @@
+import { faker } from '@faker-js/faker/locale/es_MX';
 import { Prisma, PrismaClient } from '@prisma/client';
+import bcrypt from 'bcrypt';
 
 const db = new PrismaClient();
 
@@ -9,12 +11,21 @@ async function main() {
 
     console.log('[mongo] deleting entries…');
     await db.product.deleteMany();
+    await db.user.deleteMany();
 
-    const product = await db.product.createMany({
+    const usersPromise = db.user.createMany({
+      data: await loadUserData(),
+    });
+
+    const productsPromise = db.product.createMany({
       data: loadProductData(),
     });
 
-    console.log('product', product);
+    console.log('[mongo] creating entries…');
+    const [users, products] = await Promise.all([usersPromise, productsPromise]);
+
+    console.log('users', users);
+    console.log('products', products);
   } catch (error) {
     console.error(error);
   } finally {
@@ -26,6 +37,33 @@ async function main() {
 }
 
 main();
+
+async function loadUserData(): Promise<Prisma.Enumerable<Prisma.UserCreateManyInput>> {
+  const SALT_ROUNDS = 10;
+  const adminPassword = await bcrypt.hash('admin', SALT_ROUNDS);
+
+  const users = [...Array(4)].map(() => {
+    const firstName = faker.name.firstName();
+    const lastName = faker.name.lastName();
+    const email = faker.internet.email(firstName, lastName).toLowerCase();
+    const password = bcrypt.hashSync('lalala', SALT_ROUNDS);
+
+    return {
+      email,
+      name: `${firstName} ${lastName}`,
+      password,
+    };
+  });
+
+  return [
+    {
+      email: 'admin@example.com',
+      name: 'Admin',
+      password: adminPassword,
+    },
+    ...users,
+  ];
+}
 
 function loadProductData(): Prisma.Enumerable<Prisma.ProductCreateManyInput> {
   return [
@@ -575,7 +613,7 @@ function loadProductData(): Prisma.Enumerable<Prisma.ProductCreateManyInput> {
       type: 'shirts',
       tags: ['shirt'],
       title: 'Kids Cybertruck Long Sleeve Tee',
-      gender: 'kid',
+      gender: 'kids',
     },
     {
       description:
@@ -588,7 +626,7 @@ function loadProductData(): Prisma.Enumerable<Prisma.ProductCreateManyInput> {
       type: 'shirts',
       tags: ['shirt'],
       title: 'Kids Scribble T Logo Tee',
-      gender: 'kid',
+      gender: 'kids',
     },
     {
       description:
@@ -601,7 +639,7 @@ function loadProductData(): Prisma.Enumerable<Prisma.ProductCreateManyInput> {
       type: 'shirts',
       tags: ['shirt'],
       title: 'Kids Cybertruck Tee',
-      gender: 'kid',
+      gender: 'kids',
     },
     {
       description:
@@ -614,7 +652,7 @@ function loadProductData(): Prisma.Enumerable<Prisma.ProductCreateManyInput> {
       type: 'shirts',
       tags: ['shirt'],
       title: 'Kids Racing Stripe Tee',
-      gender: 'kid',
+      gender: 'kids',
     },
     {
       description:
@@ -627,7 +665,7 @@ function loadProductData(): Prisma.Enumerable<Prisma.ProductCreateManyInput> {
       type: 'shirts',
       tags: ['shirt'],
       title: 'Kids 3D T Logo Tee',
-      gender: 'kid',
+      gender: 'kids',
     },
     {
       description:
@@ -640,7 +678,7 @@ function loadProductData(): Prisma.Enumerable<Prisma.ProductCreateManyInput> {
       type: 'shirts',
       tags: ['shirt'],
       title: 'Kids Checkered Tee',
-      gender: 'kid',
+      gender: 'kids',
     },
     {
       description:
@@ -653,7 +691,7 @@ function loadProductData(): Prisma.Enumerable<Prisma.ProductCreateManyInput> {
       type: 'shirts',
       tags: ['shirt'],
       title: 'Made on Earth by Humans Onesie',
-      gender: 'kid',
+      gender: 'kids',
     },
     {
       description:
@@ -666,7 +704,7 @@ function loadProductData(): Prisma.Enumerable<Prisma.ProductCreateManyInput> {
       type: 'shirts',
       tags: ['shirt'],
       title: 'Scribble T Logo Onesie',
-      gender: 'kid',
+      gender: 'kids',
     },
     {
       description:
@@ -679,7 +717,7 @@ function loadProductData(): Prisma.Enumerable<Prisma.ProductCreateManyInput> {
       type: 'shirts',
       tags: ['shirt'],
       title: 'Zero Emissions (Almost) Onesie',
-      gender: 'kid',
+      gender: 'kids',
     },
     {
       description:
@@ -692,7 +730,7 @@ function loadProductData(): Prisma.Enumerable<Prisma.ProductCreateManyInput> {
       type: 'shirts',
       tags: ['shirt'],
       title: 'Kids Cyberquad Bomber Jacket',
-      gender: 'kid',
+      gender: 'kids',
     },
     {
       description:
@@ -705,7 +743,7 @@ function loadProductData(): Prisma.Enumerable<Prisma.ProductCreateManyInput> {
       type: 'shirts',
       tags: ['shirt'],
       title: 'Kids Corp Jacket',
-      gender: 'kid',
+      gender: 'kids',
     },
   ];
 }

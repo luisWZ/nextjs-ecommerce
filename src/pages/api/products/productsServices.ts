@@ -1,8 +1,8 @@
-import { Gender } from '@prisma/client';
+import { Gender, Prisma } from '@prisma/client';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { db, logger } from '@/server';
+import { findManyProducts, findProductBySlugOrThrow, logger } from '@/server';
 import { messages } from '@/utils';
 
 import { ProductsResponseData } from './productsResponseData';
@@ -12,23 +12,14 @@ const validGenders = Object.keys(Gender);
 export const findAll = async (req: NextApiRequest, res: NextApiResponse<ProductsResponseData>) => {
   const { gender = 'all' } = req.query as { gender: Gender };
 
-  let condition = {};
+  let condition: Prisma.ProductWhereInput = {};
 
   if (gender !== 'all' && validGenders.includes(gender)) {
     condition = { gender: { equals: gender } };
   }
 
   try {
-    const products = await db.product.findMany({
-      where: condition,
-      select: {
-        slug: true,
-        title: true,
-        images: true,
-        price: true,
-        inStock: true,
-      },
-    });
+    const products = await findManyProducts(condition);
 
     return res.status(200).json(products);
   } catch (error) {
@@ -48,21 +39,7 @@ export const findBySlug = async (
   }
 
   try {
-    const product = await db.product.findUniqueOrThrow({
-      where: { slug },
-      select: {
-        slug: true,
-        tags: true,
-        description: true,
-        inStock: true,
-        price: true,
-        sizes: true,
-        title: true,
-        type: true,
-        gender: true,
-        images: true,
-      },
-    });
+    const product = await findProductBySlugOrThrow(slug);
 
     return res.status(200).json(product);
   } catch (error) {

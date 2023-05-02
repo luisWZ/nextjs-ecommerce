@@ -1,18 +1,19 @@
-// import { Product } from '@prisma/client';
 import { Box, Card, CardActionArea, CardMedia, Grid, Link, Typography } from '@mui/material';
+import { Product } from '@prisma/client';
 import NextLink from 'next/link';
-import { useMemo, useState } from 'react';
-
-import { IProduct } from '@/interfaces';
+import { useState } from 'react';
 
 interface ProductCardProps {
-  product: IProduct;
+  product: Product;
 }
 
 export const ProductCard = ({ product }: ProductCardProps) => {
   const { slug, images, title, price } = product;
 
   const [isHovered, setIsHovered] = useState(false);
+  const [isMediaLoaded, setIsMediaLoaded] = useState(false);
+
+  const onMediaLoad = () => setIsMediaLoaded(true);
 
   return (
     <Grid
@@ -25,8 +26,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
     >
       <Card>
         <CardActionArea>
-          <NextLink href={`/product/slug`} legacyBehavior passHref prefetch={false}>
-            {/* <NextLink href={`/products/${slug}`} legacyBehavior passHref prefetch={false}> */}
+          <NextLink href={`/product/${slug}`} legacyBehavior passHref prefetch={false}>
             <Link>
               <Box
                 display="flex"
@@ -35,8 +35,9 @@ export const ProductCard = ({ product }: ProductCardProps) => {
                 sx={{ position: 'relative' }}
               >
                 <CardMedia
+                  onLoad={onMediaLoad}
                   component="img"
-                  image={`products/${images[1]}`}
+                  image={`/products/${images[1]}`}
                   alt={title}
                   sx={{
                     position: 'absolute',
@@ -44,13 +45,13 @@ export const ProductCard = ({ product }: ProductCardProps) => {
                     transition: 'opacity 0.3s ease-out',
                   }}
                 />
-                <CardMedia component="img" image={`products/${images[0]}`} alt={title} />
+                <CardMedia component="img" image={`/products/${images[0]}`} alt={title} />
               </Box>
             </Link>
           </NextLink>
         </CardActionArea>
       </Card>
-      <Box sx={{ mt: 1 }} className="fadeIn">
+      <Box sx={{ mt: 1, display: isMediaLoaded ? 'block': 'none' }} className="fadeIn">
         <Typography fontWeight={700}>{title}</Typography>
         <Typography fontWeight={500}>
           {'$'}

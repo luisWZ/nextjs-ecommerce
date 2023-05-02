@@ -1,8 +1,8 @@
 import { CreditCardOffOutlined, CreditScoreOutlined } from '@mui/icons-material';
 import { Box, Card, CardContent, Chip, Divider, Grid, Typography } from '@mui/material';
 
-import { CartList, OrderSummary } from '@/components/cart';
-import { ShopLayout } from '@/components/layouts';
+import { CartList, OrderSummary } from '@/cart';
+import { ShopLayout } from '@/layouts';
 
 const OrderByIdPage = () => {
   return (

@@ -1,11 +1,11 @@
 import { Box, Button, CardActionArea, CardMedia, Grid, Link, Typography } from '@mui/material';
 import NextLink from 'next/link';
 
-import { mockData } from '@/interfaces';
+import { mockProducts } from '@/mock';
 
 import { ItemCounter } from '../ui';
 
-const productsInCart = mockData.products.slice(0, 3);
+const productsInCart = mockProducts.products.slice(0, 3);
 
 interface CartListProps {
   editable?: boolean;
