@@ -5,20 +5,21 @@ import { CssBaseline } from '@mui/material';
 import type { AppProps } from 'next/app';
 import { SWRConfig } from 'swr';
 
+import { AuthProvider, UIProvider } from '@/context';
 import { fetcher } from '@/hooks';
 import { lightTheme } from '@/themes';
-
-import { UIProvider } from '../context/UIContextProvider';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <SWRConfig value={{ fetcher }}>
-      <ThemeProvider theme={lightTheme}>
-        <CssBaseline />
+      <AuthProvider>
         <UIProvider>
-          <Component {...pageProps} />
+          <ThemeProvider theme={lightTheme}>
+            <CssBaseline />
+            <Component {...pageProps} />
+          </ThemeProvider>
         </UIProvider>
-      </ThemeProvider>
+      </AuthProvider>
     </SWRConfig>
   );
 }

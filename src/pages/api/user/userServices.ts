@@ -1,19 +1,12 @@
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import bcrypt from 'bcryptjs';
 import { NextApiRequest, NextApiResponse } from 'next';
-import isAlphanumeric from 'validator/lib/isAlphanumeric';
+// import isAlphanumeric from 'validator/lib/isAlphanumeric';
 import isEmail from 'validator/lib/isEmail';
 import isStrongPassword from 'validator/lib/isStrongPassword';
 
-import {
-  createToken,
-  db,
-  decodeToken,
-  findUserByEmail,
-  logger,
-  UserData,
-  UserLoginData,
-} from '@/server';
+import type { UserData, UserLoginData } from '@/interface';
+import { createToken, db, decodeToken, findUserByEmail, logger } from '@/server';
 import { config, messages } from '@/utils';
 
 import { UserResponseData } from './userResponseData';
@@ -54,15 +47,26 @@ export const userLogin = async (req: NextApiRequest, res: NextApiResponse<UserRe
 export const userRegister = async (req: NextApiRequest, res: NextApiResponse<UserResponseData>) => {
   const { email = '', password = '', name = '' } = req.body as Record<string, string>;
   try {
-    if (!isAlphanumeric(name, 'es-ES')) {
-      return res.status(400).json({ message: messages.USER_INVALID_NAME });
+    // if (!isAlphanumeric(name, 'es-ES')) {
+    // return res.status(400).json({ message: messages.USER_INVALID_NAME });
+    // } else if (name.length < 3) {
+    if (name.length < 3) {
+      return res.status(400).json({ message: messages.USER_INVALID_NAME_LENGTH });
     }
 
     if (!isEmail(email)) {
       return res.status(400).json({ message: messages.USER_INVALID_EMAIL });
     }
 
-    if (!isStrongPassword(password, { minLength: 6, minLowercase: 2 })) {
+    if (
+      !isStrongPassword(password, {
+        minLength: 6,
+        minLowercase: 2,
+        minUppercase: 0,
+        minNumbers: 0,
+        minSymbols: 0,
+      })
+    ) {
       return res.status(400).json({ message: messages.USER_INVALID_PASSWORD });
     }
 
@@ -70,7 +74,7 @@ export const userRegister = async (req: NextApiRequest, res: NextApiResponse<Use
 
     await db.user.create({
       data: { email, password: encryptedPassword, name },
-      select: {},
+      select: { id: true },
     });
 
     const user: UserData = { email, name, role: 'CLIENT' };

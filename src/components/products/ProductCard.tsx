@@ -51,7 +51,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           </NextLink>
         </CardActionArea>
       </Card>
-      <Box sx={{ mt: 1, display: isMediaLoaded ? 'block': 'none' }} className="fadeIn">
+      <Box sx={{ mt: 1, display: isMediaLoaded ? 'block' : 'none' }} className="fadeIn">
         <Typography fontWeight={700}>{title}</Typography>
         <Typography fontWeight={500}>
           {'$'}

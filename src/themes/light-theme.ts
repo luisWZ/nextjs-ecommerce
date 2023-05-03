@@ -5,7 +5,8 @@ export const lightTheme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '##1E1E1E',
+      // main: '#1E1E1E',
+      main: grey[900],
     },
     secondary: {
       main: '#3A64D8',
@@ -58,11 +59,6 @@ export const lightTheme = createTheme({
           textTransform: 'none',
           boxShadow: 'none',
           borderRadius: 10,
-          ':hover': {
-            backgroundColor: 'rgba(0,0,0,0.05)',
-            transition: 'all 0.3s ease-in-out',
-            color: grey[900],
-          },
         },
       },
     },

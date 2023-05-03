@@ -27,11 +27,13 @@ import {
 import { useRouter } from 'next/router';
 import { ChangeEvent, useContext, useEffect, useRef, useState } from 'react';
 
-import { UIContext } from '@/context';
+import { AuthContext, UIContext } from '@/context';
 
 export const SideMenu = () => {
   const { isMenuOpen, isOpenFromNavbar, closeMenu, isOpenFromNavbarToFalse } =
     useContext(UIContext);
+
+  const { authLogout } = useContext(AuthContext);
 
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -144,7 +146,7 @@ export const SideMenu = () => {
             <ListItemText primary={'Log in'} />
           </ListItemButton>
 
-          <ListItemButton>
+          <ListItemButton onClick={authLogout}>
             <ListItemIcon>
               <LoginOutlined />
             </ListItemIcon>

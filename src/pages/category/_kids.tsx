@@ -11,7 +11,7 @@ const KidsPage = () => {
 
   return (
     <ShopLayout title="Teslo-Shop - Kids" pageDescription="Official Teslo merchandise for kids">
-      <Typography variant="h1" component="h1" mb={2 }>
+      <Typography variant="h1" component="h1" mb={2}>
         Kids
       </Typography>
 

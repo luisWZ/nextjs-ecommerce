@@ -1,10 +1,6 @@
-import { Prisma, User } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 
 import { db } from './db';
-
-export type UserLoginData = Pick<User, 'email' | 'role' | 'name' | 'password'>;
-
-export type UserData = Pick<User, 'email' | 'role' | 'name'>;
 
 const selectUserLogin: Prisma.UserSelect = {
   email: true,

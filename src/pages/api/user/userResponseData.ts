@@ -1,6 +1,3 @@
-import { UserData } from '@/server';
+import { UserApiResponse } from '@/interface';
 
-export type UserResponseData =
-  | { message: string }
-  | { token: string; user: UserData }
-  | { email: string };
+export type UserResponseData = { message: string } | UserApiResponse | { email: string };

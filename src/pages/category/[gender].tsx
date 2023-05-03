@@ -1,10 +1,10 @@
 import { capitalize, Typography } from '@mui/material';
-import { Gender, Prisma, Product } from '@prisma/client';
+import { Gender, Product } from '@prisma/client';
 import { GetStaticPaths, GetStaticProps } from 'next';
 
 import { ShopLayout } from '@/layouts';
 import { ProductList } from '@/products';
-import { db, findManyProducts } from '@/server';
+import { findManyProducts } from '@/server';
 import { config } from '@/utils';
 
 interface CategoryPageProps {

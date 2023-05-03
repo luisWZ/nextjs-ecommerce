@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-import { UserData } from '@/pages/api/user/userResponseData';
+import type { UserData } from '@/interface';
 import { config, messages } from '@/utils';
 
 import { logger } from './logger';

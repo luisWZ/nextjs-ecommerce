@@ -1,5 +1,5 @@
 import { Chip, Grid, Link, Typography } from '@mui/material';
-import { DataGrid, GridColDef/* , GridRowProps, GridValueGetterParams */ } from '@mui/x-data-grid';
+import { DataGrid, GridColDef /* , GridRowProps, GridValueGetterParams */ } from '@mui/x-data-grid';
 import NextLink from 'next/link';
 
 import { ShopLayout } from '@/layouts';
