@@ -11,11 +11,13 @@ const selectProductList: Prisma.ProductSelect = {
 };
 
 const selectProductDetails: Prisma.ProductSelect = {
+  slug: true,
   title: true,
   price: true,
   description: true,
   images: true,
   inStock: true,
+  gender: true,
   sizes: true,
 };
 

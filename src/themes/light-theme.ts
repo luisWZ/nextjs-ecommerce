@@ -54,6 +54,19 @@ export const lightTheme = createTheme({
         size: 'small',
         disableElevation: true,
       },
+      variants: [
+        {
+          props: { color: 'primary' },
+          style: {
+            backgroundColor: 'rgba(0,0,0,0.0)',
+            color: grey[900],
+            ':hover': {
+              backgroundColor: 'rgba(0,0,0,0.05)',
+              transition: 'all 0.3s ease-in-out',
+            },
+          },
+        },
+      ],
       styleOverrides: {
         root: {
           textTransform: 'none',

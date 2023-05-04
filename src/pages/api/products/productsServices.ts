@@ -52,4 +52,4 @@ export const findBySlug = async (
   }
 };
 
-// export const findAll = async (req: NextApiRequest, res: NextApiResponse<ProductResponseData>) => {};
+// export const findAll = async (req: NextApiRequest, res: NextApiResponse<ProductsResponseData>) => {};

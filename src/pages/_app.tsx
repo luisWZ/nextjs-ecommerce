@@ -5,7 +5,7 @@ import { CssBaseline } from '@mui/material';
 import type { AppProps } from 'next/app';
 import { SWRConfig } from 'swr';
 
-import { AuthProvider, UIProvider } from '@/context';
+import { AuthProvider, CartProvider, UIProvider } from '@/context';
 import { fetcher } from '@/hooks';
 import { lightTheme } from '@/themes';
 
@@ -13,12 +13,14 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <SWRConfig value={{ fetcher }}>
       <AuthProvider>
-        <UIProvider>
-          <ThemeProvider theme={lightTheme}>
-            <CssBaseline />
-            <Component {...pageProps} />
-          </ThemeProvider>
-        </UIProvider>
+        <CartProvider>
+          <UIProvider>
+            <ThemeProvider theme={lightTheme}>
+              <CssBaseline />
+              <Component {...pageProps} />
+            </ThemeProvider>
+          </UIProvider>
+        </CartProvider>
       </AuthProvider>
     </SWRConfig>
   );

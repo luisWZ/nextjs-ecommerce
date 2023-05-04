@@ -4,7 +4,7 @@ import { createContext, type PropsWithChildren, useEffect, useReducer } from 're
 
 import { tesloApi } from '@/api';
 import { UserApiResponse, UserData } from '@/interface';
-import { messages } from '@/utils';
+import { cookie, messages } from '@/utils';
 
 import { AuthActionType, authReducer } from './authReducer';
 
@@ -38,11 +38,11 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       const { data } = await tesloApi.get<UserApiResponse>('/user/validate-user');
       const { token, user } = data;
 
-      Cookies.set('token', token);
+      Cookies.set(cookie.TOKEN, token);
 
       dispatch({ type: 'AUTH_LOGIN', payload: user });
     } catch (error) {
-      Cookies.remove('token');
+      Cookies.remove(cookie.TOKEN);
     }
   };
 
@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const authRegister: ContextProps['authRegister'] = loginUser(dispatch, '/user/register');
 
   const authLogout: ContextProps['authLogout'] = () => {
-    Cookies.remove('token');
+    Cookies.remove(cookie.TOKEN);
     dispatch({ type: 'AUTH_LOGOUT' });
   };
 
@@ -75,7 +75,7 @@ function loginUser(dispatch: (value: AuthActionType) => void, urlPath: string) {
       const { data } = await tesloApi.post<UserApiResponse>(urlPath, body);
       const { token, user } = data;
 
-      Cookies.set('token', token);
+      Cookies.set(cookie.TOKEN, token);
 
       dispatch({ type: 'AUTH_LOGIN', payload: user });
 

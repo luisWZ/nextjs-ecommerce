@@ -1,12 +1,24 @@
 import { Box, Button, Card, CardContent, Divider, Grid, Link, Typography } from '@mui/material';
 import NextLink from 'next/link';
+import { useContext, useMemo } from 'react';
 
 import { CartList, OrderSummary } from '@/cart';
+import { CartContext } from '@/context';
 import { ShopLayout } from '@/layouts';
 
 const SummaryPage = () => {
+  const { itemCount } = useContext(CartContext);
+
+  const productCountText = useMemo(
+    () => `${itemCount} product${itemCount > 1 ? 's' : ''}`,
+    [itemCount]
+  );
+
   return (
-    <ShopLayout title="Order review — 3" pageDescription="Order summary page">
+    <ShopLayout
+      title={`Order review${!!itemCount ? `: ${productCountText}` : ''}`}
+      pageDescription="Order summary page"
+    >
       <Typography variant="h1" component="h1" mb={2}>
         Summary
       </Typography>
@@ -17,7 +29,7 @@ const SummaryPage = () => {
         <Grid item xs={12} sm={5}>
           <Card className="summary-card">
             <CardContent>
-              <Typography variant="h2">Review (3 products) </Typography>
+              <Typography variant="h2">Review {productCountText}</Typography>
 
               <Divider sx={{ my: 1 }} />
 

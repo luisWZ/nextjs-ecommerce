@@ -7,8 +7,16 @@ export const fetcher: Fetcher<Product[], string> = (url: string) => {
   return tesloApi.get(url).then((res) => res.data);
 };
 
-export const useProducts = (url: string, config: SWRConfiguration = {}) => {
+export const useFetchApi = <T>({
+  url,
+  config = {},
+  emptyDataType,
+}: {
+  url: string;
+  config?: SWRConfiguration;
+  emptyDataType: unknown;
+}) => {
   const { data, error } = useSWR(url, config);
 
-  return { products: data || [], isLoading: !error && !data, isError: error };
+  return { data: (data ?? emptyDataType) as T, isLoading: !error && !data, isError: error };
 };

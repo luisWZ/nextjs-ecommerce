@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import Head from 'next/head';
 import { PropsWithChildren } from 'react';
 
-import { Navbar, SideMenu } from '../ui';
+import { Navbar, SideMenu } from '@/ui';
 
 interface ShopLayoutProps extends PropsWithChildren {
   title: string;

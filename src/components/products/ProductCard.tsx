@@ -1,4 +1,4 @@
-import { Box, Card, CardActionArea, CardMedia, Grid, Link, Typography } from '@mui/material';
+import { Box, Card, CardActionArea, CardMedia, Chip, Grid, Link, Typography } from '@mui/material';
 import { Product } from '@prisma/client';
 import NextLink from 'next/link';
 import { useState } from 'react';
@@ -8,7 +8,7 @@ interface ProductCardProps {
 }
 
 export const ProductCard = ({ product }: ProductCardProps) => {
-  const { slug, images, title, price } = product;
+  const { slug, images, title, price, inStock } = product;
 
   const [isHovered, setIsHovered] = useState(false);
   const [isMediaLoaded, setIsMediaLoaded] = useState(false);
@@ -24,10 +24,17 @@ export const ProductCard = ({ product }: ProductCardProps) => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <Card>
+      <Card sx={inStock ? {} : { opacity: 0.66 }}>
         <CardActionArea>
           <NextLink href={`/product/${slug}`} legacyBehavior passHref prefetch={false}>
             <Link>
+              {!inStock ? (
+                <Chip
+                  color="primary"
+                  label="Out of stock"
+                  sx={{ position: 'absolute', zIndex: 1, top: 8, right: 8 }}
+                />
+              ) : null}
               <Box
                 display="flex"
                 justifyContent="center"

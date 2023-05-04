@@ -1,12 +1,16 @@
 import { Typography } from '@mui/material';
+import { Product } from '@prisma/client';
 
-import { useProducts } from '@/hooks';
+import { useFetchApi } from '@/hooks';
 import { ShopLayout } from '@/layouts';
 import { ProductList } from '@/products';
 import { FullScreenLoading } from '@/ui';
 
 export default function Home() {
-  const { products, isLoading } = useProducts('/products');
+  const { data: products, isLoading } = useFetchApi<Product[]>({
+    url: '/products',
+    emptyDataType: [],
+  });
 
   return (
     <ShopLayout title="Teslo-Shop - Home" pageDescription="Official Teslo merchandise">

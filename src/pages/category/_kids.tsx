@@ -1,13 +1,16 @@
 import { Typography } from '@mui/material';
-import { Gender } from '@prisma/client';
+import { Gender, Product } from '@prisma/client';
 
-import { useProducts } from '@/hooks';
+import { useFetchApi } from '@/hooks';
 import { ShopLayout } from '@/layouts';
 import { ProductList } from '@/products';
 import { FullScreenLoading } from '@/ui';
 
 const KidsPage = () => {
-  const { products, isLoading } = useProducts(`/products?gender=${Gender.kids}`);
+  const { data: products, isLoading } = useFetchApi<Product[]>({
+    url: `/products?gender=${Gender.kids}`,
+    emptyDataType: [],
+  });
 
   return (
     <ShopLayout title="Teslo-Shop - Kids" pageDescription="Official Teslo merchandise for kids">

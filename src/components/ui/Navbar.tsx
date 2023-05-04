@@ -17,12 +17,14 @@ import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { ChangeEvent, useContext, useState } from 'react';
 
-import { UIContext } from '@/context';
+import { CartContext, UIContext } from '@/context';
 
 import { NavLinks } from './ActiveLink';
 
 export const Navbar = () => {
   const { openMenu, openMenuForSearch } = useContext(UIContext);
+  const { itemCount } = useContext(CartContext);
+
   const router = useRouter();
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -98,7 +100,7 @@ export const Navbar = () => {
           <NextLink href="/cart" legacyBehavior passHref>
             <Link>
               <IconButton>
-                <Badge badgeContent={2} color="secondary">
+                <Badge badgeContent={itemCount} max={10} color="secondary">
                   <ShoppingCartOutlined />
                 </Badge>
               </IconButton>

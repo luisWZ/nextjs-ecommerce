@@ -1,5 +1,7 @@
 import { Product } from '@prisma/client';
 
+import { Cart } from '@/interface';
+
 /**
  * @deprecated use @prisma/client interface
  */
@@ -30,6 +32,49 @@ type IValidSizes = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL' | 'XXXL';
  * @deprecated use only with IProduct interface
  */
 type IValidTypes = 'shirts' | 'pants' | 'hoodies' | 'hats';
+
+export const mockCart: Cart[] = [
+  {
+    price: 75,
+    title: 'Men’s Chill Crew Neck Sweatshirt',
+    slug: 'mens_chill_crew_neck_sweatshirt',
+    gender: 'men',
+    quantity: 2,
+    image: '1740176-00-A_0_2000.jpg',
+    size: 'S',
+    inStock: 7,
+  },
+  {
+    price: 75,
+    title: 'Men’s Chill Crew Neck Sweatshirt',
+    slug: 'mens_chill_crew_neck_sweatshirt',
+    gender: 'men',
+    quantity: 2,
+    image: '1740176-00-A_0_2000.jpg',
+    size: 'L',
+    inStock: 7,
+  },
+  {
+    price: 130,
+    title: "Women's Chill Half Zip Cropped Hoodie",
+    slug: 'women_chill_half_zip_cropped_hoodie',
+    gender: 'women',
+    quantity: 1,
+    image: '1740226-00-A_0_2000.jpg',
+    size: 'M',
+    inStock: 10,
+  },
+  {
+    price: 30,
+    title: 'Kids Cybertruck Long Sleeve Tee',
+    slug: 'kids_cybertruck_long_sleeve_tee',
+    gender: 'kids',
+    quantity: 2,
+    image: '1742694-00-A_1_2000.jpg',
+    size: 'S',
+    inStock: 10,
+  },
+];
 
 export const mockProducts: { products: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>[] } = {
   products: [

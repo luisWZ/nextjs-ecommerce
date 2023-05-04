@@ -1,9 +1,10 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Chip, Grid, Typography } from '@mui/material';
 import { Product } from '@prisma/client';
 import { GetStaticPaths, GetStaticProps } from 'next';
 
 import { ShopLayout } from '@/components/layouts';
 import { ItemCounter } from '@/components/ui';
+import { useProductDetailPage } from '@/hooks';
 import { ProductSlideshow, SizeSelector } from '@/products';
 import { findManyProductslugs, findProductBySlug } from '@/server';
 import { config } from '@/utils';
@@ -14,6 +15,9 @@ interface ProductDetailPageProps {
 
 const ProductDetailPage = ({ product }: ProductDetailPageProps) => {
   const { description, images, title, price, sizes } = product;
+
+  const { tempCartProduct, maxStock, modifyQuantity, onSelectedSize, onClickAddToCart } =
+    useProductDetailPage(product);
 
   return (
     <ShopLayout title={title} pageDescription={description}>
@@ -33,15 +37,28 @@ const ProductDetailPage = ({ product }: ProductDetailPageProps) => {
 
             <Box sx={{ my: 2 }}>
               <Typography variant="subtitle2">Quantity</Typography>
-              <ItemCounter />
-              <SizeSelector sizes={sizes} />
-            </Box>
-            {/* Add t cart */}
-            <Button color="secondary" className="circular-btn">
-              Add to cart
-            </Button>
 
-            {/* <Chip label='Product is unavailable' color='error' variant='outlined' /> */}
+              <ItemCounter
+                quantity={tempCartProduct.quantity ?? 0}
+                modifyQuantity={modifyQuantity}
+              />
+
+              {maxStock ? (
+                <SizeSelector
+                  onSelectedSize={onSelectedSize}
+                  selectedSize={tempCartProduct.size}
+                  sizes={sizes}
+                />
+              ) : null}
+            </Box>
+
+            {maxStock ? (
+              <Button onClick={onClickAddToCart} color="secondary" className="circular-btn">
+                {tempCartProduct.size ? 'Add to cart' : 'Select size'}
+              </Button>
+            ) : (
+              <Chip label="Product is Out of Stock" color="error" variant="outlined" />
+            )}
 
             <Box sx={{ mt: 3 }}>
               <Typography variant="subtitle2">Description</Typography>
