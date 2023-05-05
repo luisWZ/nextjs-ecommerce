@@ -3,6 +3,7 @@ import isAlphanumeric from 'validator/lib/isAlphanumeric';
 import isEmail from 'validator/lib/isEmail';
 import isStrongPassword from 'validator/lib/isStrongPassword';
 
+import { config } from './config';
 import { messages } from './messages';
 
 export const isValidEmail = (email: string) => {
@@ -12,12 +13,13 @@ export const isValidEmail = (email: string) => {
 export const isValidName = (name: string) => {
   name = name.trim();
   // const wordCount = name.split(' ').filter((str) => str.length).length;
-
   // if (wordCount < 2) return 'PLease provide first name & surname';
 
-  if (name.length < 3) return capitalize(messages.USER_INVALID_NAME);
+  if (name.length < config.NAME_MIN_LENGTH) return capitalize(messages.USER_INVALID_NAME);
 
-  return isAlphanumeric(name, 'es-ES') ? undefined : capitalize(messages.USER_INVALID_NAME);
+  return isAlphanumeric(name, 'es-ES', { ignore: ' ' })
+    ? undefined
+    : capitalize(messages.USER_INVALID_NAME);
 };
 
 export const isValidPassword = (password: string) => {

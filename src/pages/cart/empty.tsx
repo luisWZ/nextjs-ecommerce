@@ -37,7 +37,10 @@ const EmptyPage = () => {
               fontWeight: 500 /* , fontStyle: 'italic' */,
             }}
           >
-            <Link sx={{ textDecoration: 'underline' }}>Go for it 💪</Link>
+            <Link sx={{ textDecoration: 'underline' }}>
+              Go get some
+              <span style={{ textDecoration: 'none', display: 'inline-block' }}>&ensp;💪</span>
+            </Link>
           </NextLink>
         </Typography>
       </Box>

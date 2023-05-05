@@ -27,22 +27,22 @@ export const OrderSummary = () => {
 
   return (
     <Grid container mt={2} className="fadeIn">
-      <Grid item xs={6}>
+      <Grid item xs={6} mt={0.5}>
         <Typography>Products</Typography>
       </Grid>
-      <Grid item xs={6} display="flex" justifyContent="end">
+      <Grid item xs={6} display="flex" justifyContent="end" mt={0.5}>
         <Typography>{!!itemCount && itemCountText}</Typography>
       </Grid>
-      <Grid item xs={6}>
+      <Grid item xs={6} mt={1}>
         <Typography>Subtotal</Typography>
       </Grid>
-      <Grid item xs={6} display="flex" justifyContent="end">
+      <Grid item xs={6} display="flex" justifyContent="end" mt={1}>
         <Typography>{money(subTotal)}</Typography>
       </Grid>
-      <Grid item xs={6}>
+      <Grid item xs={6} mt={1}>
         <Typography>Tax ({config.TAX_PERCENT}%)</Typography>
       </Grid>
-      <Grid item xs={6} display="flex" justifyContent="end">
+      <Grid item xs={6} display="flex" justifyContent="end" mt={1}>
         <Typography>{money(tax)}</Typography>
       </Grid>
       <Grid item xs={6} mt={2}>

@@ -1,12 +1,13 @@
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import bcrypt from 'bcryptjs';
 import { NextApiRequest, NextApiResponse } from 'next';
-// import isAlphanumeric from 'validator/lib/isAlphanumeric';
+import isAlphanumeric from 'validator/lib/isAlphanumeric';
 import isEmail from 'validator/lib/isEmail';
 import isStrongPassword from 'validator/lib/isStrongPassword';
 
+import { db, findUserByEmail } from '@/database';
 import type { UserData, UserLoginData } from '@/interface';
-import { createToken, db, decodeToken, findUserByEmail, logger } from '@/server';
+import { createToken, logger, validateAndDecodeToken } from '@/lib';
 import { config, messages } from '@/utils';
 
 import { UserResponseData } from './userResponseData';
@@ -23,15 +24,15 @@ export const userLogin = async (req: NextApiRequest, res: NextApiResponse<UserRe
 
     const user = (await findUserByEmail(email, { withPassword: true })) as UserLoginData;
 
+    const { role, name } = user;
+
     const isValidPassword = await bcrypt.compare(password, user.password);
 
     if (!isValidPassword) {
       return res.status(400).json({ message: messages.USER_INVALID_LOGIN });
     }
 
-    const token = await createToken(user);
-
-    const { role, name } = user;
+    const token = await createToken({ role, email, name });
 
     return res.status(200).json({ token, user: { email, role, name } });
   } catch (error) {
@@ -47,10 +48,9 @@ export const userLogin = async (req: NextApiRequest, res: NextApiResponse<UserRe
 export const userRegister = async (req: NextApiRequest, res: NextApiResponse<UserResponseData>) => {
   const { email = '', password = '', name = '' } = req.body as Record<string, string>;
   try {
-    // if (!isAlphanumeric(name, 'es-ES')) {
-    // return res.status(400).json({ message: messages.USER_INVALID_NAME });
-    // } else if (name.length < 3) {
-    if (name.length < 3) {
+    if (!isAlphanumeric(name, 'es-ES', { ignore: ' ' })) {
+      return res.status(400).json({ message: messages.USER_INVALID_NAME });
+    } else if (name.length < config.NAME_MIN_LENGTH) {
       return res.status(400).json({ message: messages.USER_INVALID_NAME_LENGTH });
     }
 
@@ -77,7 +77,7 @@ export const userRegister = async (req: NextApiRequest, res: NextApiResponse<Use
       select: { id: true },
     });
 
-    const user: UserData = { email, name, role: 'CLIENT' };
+    const user: UserData = { role: 'CLIENT', email, name };
 
     const token = await createToken(user);
 
@@ -96,7 +96,7 @@ export const validateUser = async (req: NextApiRequest, res: NextApiResponse<Use
   const { token = '' } = req.cookies;
 
   try {
-    const email = await decodeToken(token);
+    const email = await validateAndDecodeToken(token);
 
     const user = (await findUserByEmail(email)) as UserData;
 

@@ -2,9 +2,9 @@ import { Typography } from '@mui/material';
 import { Product } from '@prisma/client';
 import { GetServerSideProps } from 'next';
 
+import { findManyProducts, findProductsBySearchTerm } from '@/database';
 import { ShopLayout } from '@/layouts';
 import { ProductList } from '@/products';
-import { findManyProducts, findProductsBySearchTerm } from '@/server';
 
 interface SearchPageProps {
   products: Product[];

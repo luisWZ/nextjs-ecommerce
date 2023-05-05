@@ -1,5 +1,5 @@
 // This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// learn more about it in the docs Sttps/Spris.ly/d/prisma-schem
 
 generator client {
   provider = "prisma-client-js"
@@ -18,6 +18,18 @@ model User {
   role      Role     @default(CLIENT)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  address   Address?
+}
+
+type Address {
+  firstName String
+  lastName  String
+  address   String
+  address_2 String
+  city      String
+  zipCode   String
+  country   String
+  phone     String
 }
 
 enum Role {

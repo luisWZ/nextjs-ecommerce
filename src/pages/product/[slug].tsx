@@ -4,9 +4,9 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 
 import { ShopLayout } from '@/components/layouts';
 import { ItemCounter } from '@/components/ui';
+import { findManyProductslugs, findProductBySlug } from '@/database';
 import { useProductDetailPage } from '@/hooks';
 import { ProductSlideshow, SizeSelector } from '@/products';
-import { findManyProductslugs, findProductBySlug } from '@/server';
 import { config } from '@/utils';
 
 interface ProductDetailPageProps {

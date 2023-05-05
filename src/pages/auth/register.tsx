@@ -16,8 +16,8 @@ interface FormData {
 }
 
 const RegisterPage = () => {
-  const router = useRouter();
   const { authRegister } = useContext(AuthContext);
+  const router = useRouter();
 
   const [showError, setShowError] = useState<string | false>(false);
   const { register, handleSubmit, formState } = useForm<FormData>();
@@ -35,7 +35,8 @@ const RegisterPage = () => {
       return;
     }
 
-    router.replace('/');
+    const path = router.query.page?.toString() ?? '/';
+    router.replace(path);
   };
 
   return (
@@ -121,7 +122,11 @@ const RegisterPage = () => {
               </Button>
             </Grid>
             <Grid item xs={12} display="flex" justifyContent="flex-end">
-              <NextLink href="/auth/login" passHref legacyBehavior>
+              <NextLink
+                href={router.query.page ? `/auth/login?page=${router.query.page}` : '/auth/login'}
+                passHref
+                legacyBehavior
+              >
                 <Link underline="always">Do you have an account?</Link>
               </NextLink>
             </Grid>

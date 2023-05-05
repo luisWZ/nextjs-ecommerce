@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { findProductsBySearchTerm, logger } from '@/server';
+import { findProductsBySearchTerm } from '@/database';
+import { logger } from '@/lib';
 import { messages } from '@/utils';
 
 import { SearchResponseData } from './searchResponseData';

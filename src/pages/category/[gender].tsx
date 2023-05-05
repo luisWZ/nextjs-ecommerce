@@ -2,9 +2,9 @@ import { capitalize, Typography } from '@mui/material';
 import { Gender, Product } from '@prisma/client';
 import { GetStaticPaths, GetStaticProps } from 'next';
 
+import { findManyProducts } from '@/database';
 import { ShopLayout } from '@/layouts';
 import { ProductList } from '@/products';
-import { findManyProducts } from '@/server';
 import { config } from '@/utils';
 
 interface CategoryPageProps {

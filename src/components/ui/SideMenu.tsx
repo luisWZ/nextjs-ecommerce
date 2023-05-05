@@ -1,7 +1,5 @@
 import {
   AccountCircleOutlined,
-  AdminPanelSettings,
-  CategoryOutlined,
   ConfirmationNumberOutlined,
   EscalatorWarningOutlined,
   FemaleOutlined,
@@ -22,18 +20,19 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  ListSubheader,
 } from '@mui/material';
 import { useRouter } from 'next/router';
 import { ChangeEvent, useContext, useEffect, useRef, useState } from 'react';
 
 import { AuthContext, UIContext } from '@/context';
 
+import { SideMenuAdmin } from './SideMenuAdmin';
+
 export const SideMenu = () => {
   const { isMenuOpen, isOpenFromNavbar, closeMenu, isOpenFromNavbarToFalse } =
     useContext(UIContext);
 
-  const { authLogout } = useContext(AuthContext);
+  const { authLogout, user, isAuthenticated } = useContext(AuthContext);
 
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -91,19 +90,22 @@ export const SideMenu = () => {
             />
           </ListItem>
 
-          <ListItemButton>
-            <ListItemIcon>
-              <AccountCircleOutlined />
-            </ListItemIcon>
-            <ListItemText primary={'Profile'} />
-          </ListItemButton>
-
-          <ListItemButton>
-            <ListItemIcon>
-              <ConfirmationNumberOutlined />
-            </ListItemIcon>
-            <ListItemText primary={'Order history'} />
-          </ListItemButton>
+          {isAuthenticated ? (
+            <>
+              <ListItemButton>
+                <ListItemIcon>
+                  <AccountCircleOutlined />
+                </ListItemIcon>
+                <ListItemText primary={'Profile'} />
+              </ListItemButton>
+              <ListItemButton>
+                <ListItemIcon>
+                  <ConfirmationNumberOutlined />
+                </ListItemIcon>
+                <ListItemText primary={'Order history'} />
+              </ListItemButton>
+            </>
+          ) : null}
 
           <Divider sx={{ display: { xs: '', sm: 'none' } }} />
 
@@ -139,43 +141,23 @@ export const SideMenu = () => {
 
           <Divider sx={{ display: { xs: '', sm: 'none' } }} />
 
-          <ListItemButton>
-            <ListItemIcon>
-              <VpnKeyOutlined />
-            </ListItemIcon>
-            <ListItemText primary={'Log in'} />
-          </ListItemButton>
+          {isAuthenticated ? (
+            <ListItemButton onClick={authLogout}>
+              <ListItemIcon>
+                <LoginOutlined />
+              </ListItemIcon>
+              <ListItemText primary={'Log out'} />
+            </ListItemButton>
+          ) : (
+            <ListItemButton onClick={onClickNavigateTo(`/auth/login?page=${router.asPath}`)}>
+              <ListItemIcon>
+                <VpnKeyOutlined />
+              </ListItemIcon>
+              <ListItemText primary={'Log in'} />
+            </ListItemButton>
+          )}
 
-          <ListItemButton onClick={authLogout}>
-            <ListItemIcon>
-              <LoginOutlined />
-            </ListItemIcon>
-            <ListItemText primary={'Log out'} />
-          </ListItemButton>
-
-          {/* Admin */}
-          <Divider />
-          <ListSubheader>Admin Panel</ListSubheader>
-
-          <ListItemButton>
-            <ListItemIcon>
-              <CategoryOutlined />
-            </ListItemIcon>
-            <ListItemText primary={'Products'} />
-          </ListItemButton>
-          <ListItemButton>
-            <ListItemIcon>
-              <ConfirmationNumberOutlined />
-            </ListItemIcon>
-            <ListItemText primary={'Orders'} />
-          </ListItemButton>
-
-          <ListItemButton>
-            <ListItemIcon>
-              <AdminPanelSettings />
-            </ListItemIcon>
-            <ListItemText primary={'Users'} />
-          </ListItemButton>
+          {user?.role === 'ADMIN' ? <SideMenuAdmin /> : null}
         </List>
       </Box>
     </Drawer>

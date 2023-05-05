@@ -5,9 +5,11 @@ export const config = {
   ONE_DAY: 86_400, // 60 * 60 * 24
   SALT_ROUNDS: 10,
   TAX_PERCENT: 8,
+  NAME_MIN_LENGTH: 4,
 };
 
 export const cookie = {
   CART: 'cart',
   TOKEN: 'token',
+  ADDRESS: 'address',
 };

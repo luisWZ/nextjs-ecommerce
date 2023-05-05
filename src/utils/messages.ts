@@ -1,5 +1,6 @@
 export const messages = {
   AUTH_SECRET_MISSING: 'jwt: AUTH_SECRET is undefined',
+  AUTH_JWT_INVALID: 'jwt: token is invalid',
   ENDPOINT_NOT_FOUND: 'endpoint not found',
   FORM_EMAIL_INVALID: 'Please type a valid email',
   FORM_REQUIRED: 'This is a required field',

@@ -1,7 +1,7 @@
 import { Product } from '@prisma/client';
 import useSWR, { Fetcher, SWRConfiguration } from 'swr';
 
-import { tesloApi } from '@/api';
+import { tesloApi } from '@/lib';
 
 export const fetcher: Fetcher<Product[], string> = (url: string) => {
   return tesloApi.get(url).then((res) => res.data);

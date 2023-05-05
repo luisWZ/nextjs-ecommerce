@@ -1,11 +1,10 @@
 import { Box, Button, CardActionArea, CardMedia, Grid, Link, Typography } from '@mui/material';
 import NextLink from 'next/link';
-import { useContext, useEffect, useMemo, useState } from 'react';
 
-import { CartContext } from '@/context';
+import { useCartItem } from '@/hooks';
 import { Cart } from '@/interface';
 import { ItemCounter } from '@/ui';
-import { config, moneyNoCents } from '@/utils';
+import { moneyNoCents } from '@/utils';
 
 interface CartItemProps {
   item: Cart;
@@ -13,38 +12,13 @@ interface CartItemProps {
 }
 
 export const CartItem = ({ item, editable }: CartItemProps) => {
-  const { cart, cartRemoveProduct, cartStockAvailablePerItem, cartModifyItemQuantity } =
-    useContext(CartContext);
-
   const { slug, image, title, size, price /* , inStock */ } = item;
 
-  const maxStock = useMemo(
-    () => cartStockAvailablePerItem(slug),
-    [cartStockAvailablePerItem, slug]
-  );
-
-  const [quantity, setQuantity] = useState(item.quantity);
-  const [stockAvailable, setStockAvailable] = useState(maxStock());
-
-  useEffect(() => {
-    setStockAvailable(maxStock());
-  }, [cart, maxStock]);
-
-  const modifyQuantity = (operation: '-' | '+') => {
-    return operation === '-'
-      ? () => {
-          if (quantity <= 1) return;
-          const newQuantity = quantity - 1;
-          setQuantity(newQuantity);
-          cartModifyItemQuantity(newQuantity, { slug, size });
-        }
-      : () => {
-          if (!stockAvailable || quantity === config.MAX_CART_ITEMS_PER_SIZE) return;
-          const newQuantity = quantity + 1;
-          setQuantity(newQuantity);
-          cartModifyItemQuantity(newQuantity, { slug, size });
-        };
-  };
+  const { cartRemoveProduct, quantity, modifyQuantity } = useCartItem({
+    size,
+    slug,
+    quantity: item.quantity,
+  });
 
   return (
     <Grid container spacing={2} mb={1} className="fadeIn">
@@ -75,7 +49,9 @@ export const CartItem = ({ item, editable }: CartItemProps) => {
           {editable ? (
             <ItemCounter modifyQuantity={modifyQuantity} quantity={quantity} />
           ) : (
-            <Typography>{quantity}</Typography>
+            <Typography>
+              {quantity} {quantity > 1 ? 'items' : 'item'}
+            </Typography>
           )}
         </Box>
       </Grid>

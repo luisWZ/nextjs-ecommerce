@@ -1,6 +1,8 @@
+import Cookies from 'js-cookie';
 import { Dispatch } from 'react';
 
-import { Cart, CartState } from '@/interface';
+import { Address, Cart, CartState } from '@/interface';
+import { cookie } from '@/utils';
 
 import { CartActionType } from './cartReducer';
 
@@ -9,6 +11,7 @@ export interface CartSlices {
   cartRemoveProduct: (item: Cart) => () => void;
   cartStockAvailablePerItem: (slug: string) => () => number;
   cartModifyItemQuantity: (amount: number, item: Pick<Cart, 'slug' | 'size'>) => void;
+  cartUpdateDeliveryAddress: (address: Address) => void;
 }
 
 export const cartSlices = (state: CartState, dispatch: Dispatch<CartActionType>): CartSlices => ({
@@ -53,5 +56,10 @@ export const cartSlices = (state: CartState, dispatch: Dispatch<CartActionType>)
       selectedItem.quantity = amount;
       dispatch({ type: 'CART_UPDATE_ALL_CART', payload: state.cart });
     }
+  },
+
+  cartUpdateDeliveryAddress: (address) => {
+    Cookies.set(cookie.ADDRESS, JSON.stringify(address));
+    dispatch({ type: 'CART_UPLOAD_ADDRESS', payload: address });
   },
 });

@@ -1,7 +1,7 @@
 import Cookie from 'js-cookie';
 import { createContext, type PropsWithChildren, useEffect, useMemo, useReducer } from 'react';
 
-import { CartState } from '@/interface';
+import { Address, CartState } from '@/interface';
 import { cookie } from '@/utils';
 
 import { calculateAmountsAndTotalItems } from './cartHelpers';
@@ -9,12 +9,14 @@ import { cartReducer } from './cartReducer';
 import { CartSlices, cartSlices } from './cartSlice';
 
 const INITIAL_STATE: CartState = {
-  isLoading: true,
+  isInitialized: false,
   cart: [],
   itemCount: 0,
   subTotal: 0,
   tax: 0,
   total: 0,
+  isLoadingDeliveryAddress: true,
+  deliveryAddress: {} as Address,
 };
 
 type ContextProps = CartState & CartSlices;
@@ -24,28 +26,45 @@ export const CartContext = createContext({} as ContextProps);
 export const CartProvider = ({ children }: PropsWithChildren) => {
   const [state, dispatch] = useReducer(cartReducer, INITIAL_STATE);
 
-  const stateIsLoading = useMemo(() => state.isLoading, [state.isLoading]);
+  const stateIsInitialized = useMemo(() => state.isInitialized, [state.isInitialized]);
 
   useEffect(() => {
     try {
       const cart = Cookie.get(cookie.CART);
-      dispatch({ type: 'CART_LOAD_FROM_COOKIES', payload: cart ? JSON.parse(cart) : [] });
+      dispatch({ type: 'CART_LOAD_CART_FROM_COOKIES', payload: cart ? JSON.parse(cart) : [] });
     } catch (error) {
-      dispatch({ type: 'CART_LOAD_FROM_COOKIES', payload: [] });
+      dispatch({ type: 'CART_LOAD_CART_FROM_COOKIES', payload: [] });
     }
   }, []);
 
   useEffect(() => {
-    if (stateIsLoading) return;
+    try {
+      const address = Cookie.get(cookie.ADDRESS);
+      dispatch({
+        type: 'CART_LOAD_ADDRESS_FROM_COOKIES',
+        payload: address ? JSON.parse(address) : {},
+      });
+    } catch (error) {
+      dispatch({ type: 'CART_LOAD_ADDRESS_FROM_COOKIES', payload: {} as Address });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!stateIsInitialized) return;
     Cookie.set(cookie.CART, JSON.stringify(state.cart));
-  }, [state.cart, stateIsLoading]);
+  }, [state.cart, stateIsInitialized]);
 
   useEffect(() => {
     dispatch({ type: 'CART_UPDATE_SUMMARY', payload: calculateAmountsAndTotalItems(state.cart) });
   }, [state.cart]);
 
-  const { cartAddProduct, cartRemoveProduct, cartStockAvailablePerItem, cartModifyItemQuantity } =
-    cartSlices(state, dispatch);
+  const {
+    cartAddProduct,
+    cartRemoveProduct,
+    cartStockAvailablePerItem,
+    cartModifyItemQuantity,
+    cartUpdateDeliveryAddress,
+  } = cartSlices(state, dispatch);
 
   return (
     <CartContext.Provider
@@ -55,6 +74,7 @@ export const CartProvider = ({ children }: PropsWithChildren) => {
         cartRemoveProduct,
         cartStockAvailablePerItem,
         cartModifyItemQuantity,
+        cartUpdateDeliveryAddress,
       }}
     >
       {children}

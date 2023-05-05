@@ -1,12 +1,25 @@
 import { Box, Button, Card, CardContent, Divider, Grid, Typography } from '@mui/material';
-import { useContext } from 'react';
+import { useRouter } from 'next/router';
+import { useContext, useEffect } from 'react';
 
 import { CartList, OrderSummary } from '@/cart';
 import { CartContext } from '@/context';
 import { ShopLayout } from '@/layouts';
+import { FullScreenLoading } from '@/ui';
 
 const CartPage = () => {
-  const { itemCount } = useContext(CartContext);
+  const { cart, itemCount, isInitialized } = useContext(CartContext);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isInitialized && !cart.length) {
+      router.replace('/cart/empty');
+    }
+  }, [cart.length, isInitialized, router]);
+
+  if (!isInitialized || !cart.length) {
+    return <FullScreenLoading />;
+  }
 
   return (
     <ShopLayout
@@ -30,7 +43,12 @@ const CartPage = () => {
               <OrderSummary />
 
               <Box mt={3}>
-                <Button color="secondary" className="circular-btn" fullWidth>
+                <Button
+                  color="secondary"
+                  className="circular-btn"
+                  fullWidth
+                  href="/checkout/address"
+                >
                   Checkout
                 </Button>
               </Box>
