@@ -11,21 +11,21 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  email     String   @unique
-  password  String
-  name      String
-  role      Role     @default(CLIENT)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  address   Address?
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  email           String   @unique
+  password        String
+  name            String
+  role            Role     @default(CLIENT)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  billing_address Address?
 }
 
 type Address {
   firstName String
   lastName  String
   address   String
-  address_2 String
+  address_2 String @default("")
   city      String
   zipCode   String
   country   String

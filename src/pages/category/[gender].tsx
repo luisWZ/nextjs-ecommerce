@@ -5,7 +5,7 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import { findManyProducts } from '@/database';
 import { ShopLayout } from '@/layouts';
 import { ProductList } from '@/products';
-import { config } from '@/utils';
+import { config, routes } from '@/utils';
 
 interface CategoryPageProps {
   products: Product[];
@@ -51,7 +51,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       }
     : {
         redirect: {
-          destination: '/',
+          destination: routes.PAGE_HOME,
           permanent: false,
         },
       };

@@ -7,7 +7,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { CartContext } from '@/context';
 import { Address } from '@/interface';
 import { ShopLayout } from '@/layouts';
-import { cookie, messages } from '@/utils';
+import { cookie, messages, routes } from '@/utils';
 
 const AddressPage = () => {
   const router = useRouter();
@@ -28,7 +28,7 @@ const AddressPage = () => {
     // console.log({ firstName, lastName, address, address_2, city, zipCode, country, phone });
     cartUpdateDeliveryAddress(data);
 
-    router.push('/checkout/summary');
+    router.push(routes.PAGE_CHECKOUT_SUMMARY);
   };
 
   return (

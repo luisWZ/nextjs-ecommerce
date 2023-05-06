@@ -5,10 +5,11 @@ import { useFetchApi } from '@/hooks';
 import { ShopLayout } from '@/layouts';
 import { ProductList } from '@/products';
 import { FullScreenLoading } from '@/ui';
+import { routes } from '@/utils';
 
 const MenPage = () => {
   const { data: products, isLoading } = useFetchApi<Product[]>({
-    url: `/products?gender=${Gender.men}`,
+    url: `${routes.API_PRODUCTS}?gender=${Gender.men}`,
     emptyDataType: [],
   });
 

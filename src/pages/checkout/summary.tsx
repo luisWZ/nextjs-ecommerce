@@ -7,6 +7,7 @@ import { CartList, OrderSummary } from '@/cart';
 import { FullScreenLoading } from '@/components/ui';
 import { CartContext } from '@/context';
 import { ShopLayout } from '@/layouts';
+import { routes } from '@/utils';
 
 const SummaryPage = () => {
   const { itemCount, isLoadingDeliveryAddress, deliveryAddress } = useContext(CartContext);
@@ -15,7 +16,7 @@ const SummaryPage = () => {
   useEffect(() => {
     if (isLoadingDeliveryAddress) return;
     if (deliveryAddress.address === undefined) {
-      router.replace('/checkout/address');
+      router.replace(routes.PAGE_CHECKOUT_ADDRESS);
     }
   }, [isLoadingDeliveryAddress, deliveryAddress, router]);
 
@@ -48,7 +49,7 @@ const SummaryPage = () => {
 
               <Box display="flex" justifyContent="space-between" alignItems="baseline">
                 <Typography variant="subtitle1">Delivery address</Typography>
-                <NextLink href="/checkout/address" passHref legacyBehavior>
+                <NextLink href={routes.PAGE_CHECKOUT_ADDRESS} passHref legacyBehavior>
                   <Link underline="always">Edit</Link>
                 </NextLink>
               </Box>
@@ -67,7 +68,7 @@ const SummaryPage = () => {
 
               <Box display="flex" justifyContent="space-between" alignItems="baseline">
                 <Typography variant="subtitle1">{productCountText}</Typography>
-                <NextLink href="/cart" passHref legacyBehavior>
+                <NextLink href={routes.PAGE_CART} passHref legacyBehavior>
                   <Link underline="always">Edit</Link>
                 </NextLink>
               </Box>

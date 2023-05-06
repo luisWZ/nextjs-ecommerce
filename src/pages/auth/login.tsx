@@ -7,7 +7,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { AuthContext } from '@/context';
 import { AuthLayout } from '@/layouts';
-import { isValidEmail, messages } from '@/utils';
+import { isValidEmail, messages, routes } from '@/utils';
 
 interface FormData {
   email: string;
@@ -101,7 +101,7 @@ const LoginPage = () => {
             <Grid item xs={12} display="flex" justifyContent="flex-end">
               <NextLink
                 href={
-                  router.query.page ? `/auth/register?page=${router.query.page}` : '/auth/register'
+                  router.query.page ? `${routes.PAGE_REGISTER}?page=${router.query.page}` : routes.PAGE_REGISTER
                 }
                 passHref
                 legacyBehavior

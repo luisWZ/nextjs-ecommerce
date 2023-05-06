@@ -33,9 +33,6 @@ const OrderByIdPage = () => {
 
               <Box display="flex" justifyContent="space-between" alignItems="baseline">
                 <Typography variant="subtitle1">Delivery address</Typography>
-                {/* <NextLink href="/checkout/address" passHref legacyBehavior>
-                  <Link underline="always">Edit</Link>
-                </NextLink> */}
               </Box>
 
               <Typography>Luis Lasso</Typography>
@@ -45,12 +42,6 @@ const OrderByIdPage = () => {
               <Typography>C.P. 91234</Typography>
               <Typography>+52 55 1234 5678</Typography>
               <Divider sx={{ my: 1 }} />
-
-              {/* <Box display="flex" justifyContent="flex-end">
-                <NextLink href="/cart" passHref legacyBehavior>
-                  <Link underline="always">Edit</Link>
-                </NextLink>
-              </Box> */}
 
               <OrderSummary />
 

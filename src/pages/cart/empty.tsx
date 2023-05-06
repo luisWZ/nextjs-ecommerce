@@ -2,6 +2,7 @@ import { Box, Link, Typography } from '@mui/material';
 import NextLink from 'next/link';
 
 import { ShopLayout } from '@/layouts';
+import { routes } from '@/utils';
 
 const EmptyPage = () => {
   return (
@@ -28,7 +29,7 @@ const EmptyPage = () => {
         >
           There are no items in your cart yet
           <NextLink
-            href="/"
+            href={routes.PAGE_HOME}
             legacyBehavior
             passHref
             style={{

@@ -5,6 +5,7 @@ import { GetServerSideProps } from 'next';
 import { findManyProducts, findProductsBySearchTerm } from '@/database';
 import { ShopLayout } from '@/layouts';
 import { ProductList } from '@/products';
+import { routes } from '@/utils';
 
 interface SearchPageProps {
   products: Product[];
@@ -39,7 +40,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   if (query.length === 0) {
     return {
       redirect: {
-        destination: '/',
+        destination: routes.PAGE_HOME,
         permanent: true,
       },
     };

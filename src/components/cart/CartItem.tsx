@@ -4,7 +4,7 @@ import NextLink from 'next/link';
 import { useCartItem } from '@/hooks';
 import { Cart } from '@/interface';
 import { ItemCounter } from '@/ui';
-import { moneyNoCents } from '@/utils';
+import { moneyNoCents, routes } from '@/utils';
 
 interface CartItemProps {
   item: Cart;
@@ -23,11 +23,11 @@ export const CartItem = ({ item, editable }: CartItemProps) => {
   return (
     <Grid container spacing={2} mb={1} className="fadeIn">
       <Grid item xs={3}>
-        <NextLink href={`/product/${slug}`} passHref legacyBehavior>
+        <NextLink href={`${routes.PAGE_PRODUCT}/${slug}`} passHref legacyBehavior>
           <Link>
             <CardActionArea>
               <CardMedia
-                image={`/products/${image}`}
+                image={`${routes.PUBLIC_PRODUCTS}/${image}`}
                 component="img"
                 sx={{ borderRadius: '4px' }}
               />

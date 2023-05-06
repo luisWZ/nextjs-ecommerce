@@ -3,6 +3,7 @@ import { DataGrid, GridColDef /* , GridRowProps, GridValueGetterParams */ } from
 import NextLink from 'next/link';
 
 import { ShopLayout } from '@/layouts';
+import { routes } from '@/utils';
 
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'ID', width: 100 },
@@ -25,7 +26,7 @@ const columns: GridColDef[] = [
     sortable: false,
     width: 100,
     renderCell: (params) => (
-      <NextLink href={`/orders/${params.row.id}`} passHref legacyBehavior>
+      <NextLink href={`${routes.PAGE_ORDERS}/${params.row.id}`} passHref legacyBehavior>
         <Link underline="always">details</Link>
       </NextLink>
     ),

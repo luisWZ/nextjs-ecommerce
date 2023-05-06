@@ -7,7 +7,7 @@ import { ItemCounter } from '@/components/ui';
 import { findManyProductslugs, findProductBySlug } from '@/database';
 import { useProductDetailPage } from '@/hooks';
 import { ProductSlideshow, SizeSelector } from '@/products';
-import { config } from '@/utils';
+import { config, routes } from '@/utils';
 
 interface ProductDetailPageProps {
   product: Product;
@@ -94,7 +94,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       }
     : {
         redirect: {
-          destination: '/',
+          destination: routes.PAGE_HOME,
           permanent: false,
         },
       };

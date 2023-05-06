@@ -6,6 +6,7 @@ import { CartList, OrderSummary } from '@/cart';
 import { CartContext } from '@/context';
 import { ShopLayout } from '@/layouts';
 import { FullScreenLoading } from '@/ui';
+import { routes } from '@/utils';
 
 const CartPage = () => {
   const { cart, itemCount, isInitialized } = useContext(CartContext);
@@ -13,7 +14,7 @@ const CartPage = () => {
 
   useEffect(() => {
     if (isInitialized && !cart.length) {
-      router.replace('/cart/empty');
+      router.replace(routes.PAGE_CART_EMPTY);
     }
   }, [cart.length, isInitialized, router]);
 
@@ -47,7 +48,7 @@ const CartPage = () => {
                   color="secondary"
                   className="circular-btn"
                   fullWidth
-                  href="/checkout/address"
+                  href={routes.PAGE_CHECKOUT_ADDRESS}
                 >
                   Checkout
                 </Button>

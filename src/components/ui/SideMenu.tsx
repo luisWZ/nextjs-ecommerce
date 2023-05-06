@@ -25,6 +25,7 @@ import { useRouter } from 'next/router';
 import { ChangeEvent, useContext, useEffect, useRef, useState } from 'react';
 
 import { AuthContext, UIContext } from '@/context';
+import { routes } from '@/utils';
 
 import { SideMenuAdmin } from './SideMenuAdmin';
 
@@ -60,7 +61,7 @@ export const SideMenu = () => {
     if (searchTerm.trim().length === 0) return;
 
     closeMenu();
-    router.push(`/search/${searchTerm}`);
+    router.push(`${routes.PAGE_SEARCH}/${searchTerm}`);
   };
 
   return (
@@ -110,7 +111,7 @@ export const SideMenu = () => {
           <Divider sx={{ display: { xs: '', sm: 'none' } }} />
 
           <ListItemButton
-            onClick={onClickNavigateTo('/category/men')}
+            onClick={onClickNavigateTo(routes.PAGE_CATEGORY_MEN)}
             sx={{ display: { xs: '', sm: 'none' } }}
           >
             <ListItemIcon>
@@ -120,7 +121,7 @@ export const SideMenu = () => {
           </ListItemButton>
 
           <ListItemButton
-            onClick={onClickNavigateTo('/category/women')}
+            onClick={onClickNavigateTo(routes.PAGE_CATEGORY_WOMEN)}
             sx={{ display: { xs: '', sm: 'none' } }}
           >
             <ListItemIcon>
@@ -130,7 +131,7 @@ export const SideMenu = () => {
           </ListItemButton>
 
           <ListItemButton
-            onClick={onClickNavigateTo('/category/kids')}
+            onClick={onClickNavigateTo(routes.PAGE_CATEGORY_KIDS)}
             sx={{ display: { xs: '', sm: 'none' } }}
           >
             <ListItemIcon>
@@ -149,7 +150,7 @@ export const SideMenu = () => {
               <ListItemText primary={'Log out'} />
             </ListItemButton>
           ) : (
-            <ListItemButton onClick={onClickNavigateTo(`/auth/login?page=${router.asPath}`)}>
+            <ListItemButton onClick={onClickNavigateTo(`${routes.PAGE_LOGIN}?page=${router.asPath}`)}>
               <ListItemIcon>
                 <VpnKeyOutlined />
               </ListItemIcon>

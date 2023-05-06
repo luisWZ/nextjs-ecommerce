@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { cookie } from '@/utils';
+import { cookie, routes } from '@/utils';
 
 import { validateAndDecodeToken } from './jwtService';
 import { logger } from './logger';
@@ -16,7 +16,7 @@ export const validateTokenOnCheckout = async (req: NextRequest) => {
   } catch (error) {
     logger.error(error);
 
-    const loginUrl = new URL('/auth/login', url);
+    const loginUrl = new URL(routes.PAGE_LOGIN, url);
     loginUrl.searchParams.set('page', nextUrl.pathname);
     return NextResponse.redirect(loginUrl);
   }

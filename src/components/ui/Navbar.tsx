@@ -18,6 +18,7 @@ import { useRouter } from 'next/router';
 import { ChangeEvent, useContext, useState } from 'react';
 
 import { CartContext, UIContext } from '@/context';
+import { routes } from '@/utils';
 
 import { NavLinks } from './ActiveLink';
 
@@ -34,7 +35,7 @@ export const Navbar = () => {
 
   const onSearchTerm = () => {
     if (searchTerm.trim().length === 0) return;
-    router.push(`/search/${searchTerm}`);
+    router.push(`${routes.PAGE_SEARCH}/${searchTerm}`);
   };
 
   const onClickShowSearch = () => setIsSearchVisible(true);
@@ -47,7 +48,7 @@ export const Navbar = () => {
   return (
     <AppBar>
       <Toolbar>
-        <NextLink href="/" legacyBehavior passHref>
+        <NextLink href={routes.PAGE_HOME} legacyBehavior passHref>
           <Link display="flex" alignItems="center">
             <Typography variant="h6">Teslo |</Typography>
             <Typography sx={{ ml: 0.5 }}>Shop</Typography>
@@ -61,9 +62,9 @@ export const Navbar = () => {
           className="fadeIn"
           sx={{ display: isSearchVisible ? 'none' : { xs: 'none', sm: 'flex' } }}
         >
-          <NavLinks href={`/category/${Gender.men}`} text={capitalize(Gender.men)} />
-          <NavLinks href={`/category/${Gender.women}`} text={capitalize(Gender.women)} />
-          <NavLinks href={`/category/${Gender.kids}`} text={capitalize(Gender.kids)} />
+          <NavLinks href={routes.PAGE_CATEGORY_MEN} text={capitalize(Gender.men)} />
+          <NavLinks href={routes.PAGE_CATEGORY_WOMEN} text={capitalize(Gender.women)} />
+          <NavLinks href={routes.PAGE_CATEGORY_KIDS} text={capitalize(Gender.kids)} />
         </Box>
 
         <Box flex={1} />
@@ -97,7 +98,7 @@ export const Navbar = () => {
             <SearchOutlined />
           </IconButton>
 
-          <NextLink href="/cart" legacyBehavior passHref>
+          <NextLink href={routes.PAGE_CART} legacyBehavior passHref>
             <Link>
               <IconButton>
                 <Badge badgeContent={itemCount} max={10} color="secondary">

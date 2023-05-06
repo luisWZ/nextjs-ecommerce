@@ -3,6 +3,8 @@ import { Product } from '@prisma/client';
 import NextLink from 'next/link';
 import { useState } from 'react';
 
+import { routes } from '@/utils';
+
 interface ProductCardProps {
   product: Product;
 }
@@ -26,7 +28,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
     >
       <Card sx={inStock ? {} : { opacity: 0.66 }}>
         <CardActionArea>
-          <NextLink href={`/product/${slug}`} legacyBehavior passHref prefetch={false}>
+          <NextLink href={`${routes.PAGE_PRODUCT}/${slug}`} legacyBehavior passHref prefetch={false}>
             <Link>
               {!inStock ? (
                 <Chip
@@ -44,7 +46,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
                 <CardMedia
                   onLoad={onMediaLoad}
                   component="img"
-                  image={`/products/${images[1]}`}
+                  image={`${routes.PUBLIC_PRODUCTS}/${images[1]}`}
                   alt={title}
                   sx={{
                     position: 'absolute',
@@ -52,7 +54,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
                     transition: 'opacity 0.3s ease-out',
                   }}
                 />
-                <CardMedia component="img" image={`/products/${images[0]}`} alt={title} />
+                <CardMedia component="img" image={`${routes.PUBLIC_PRODUCTS}/${images[0]}`} alt={title} />
               </Box>
             </Link>
           </NextLink>

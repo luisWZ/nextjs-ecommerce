@@ -5,10 +5,11 @@ import { useFetchApi } from '@/hooks';
 import { ShopLayout } from '@/layouts';
 import { ProductList } from '@/products';
 import { FullScreenLoading } from '@/ui';
+import { routes } from '@/utils';
 
 export default function Home() {
   const { data: products, isLoading } = useFetchApi<Product[]>({
-    url: '/products',
+    url: routes.API_PRODUCTS,
     emptyDataType: [],
   });
 
