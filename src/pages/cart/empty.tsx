@@ -2,7 +2,7 @@ import { Box, Link, Typography } from '@mui/material';
 import NextLink from 'next/link';
 
 import { ShopLayout } from '@/layouts';
-import { routes } from '@/utils';
+import { routes } from '@/lib';
 
 const EmptyPage = () => {
   return (

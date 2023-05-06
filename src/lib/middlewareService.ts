@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { cookie, routes } from '@/utils';
-
+import { cookie, routes } from './config';
 import { validateAndDecodeToken } from './jwtService';
 import { logger } from './logger';
 

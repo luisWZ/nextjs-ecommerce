@@ -2,7 +2,7 @@ import 'react-slideshow-image/dist/styles.css';
 
 import { Slide } from 'react-slideshow-image';
 
-import { routes } from '@/utils';
+import { routes } from '@/lib';
 
 import styles from './ProductSlideshow.module.css';
 

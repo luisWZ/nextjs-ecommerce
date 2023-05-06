@@ -1,5 +1,5 @@
 import { Cart } from '@/interface';
-import { config } from '@/utils';
+import { config } from '@/lib';
 
 type OrderSummaryActionType = { type: 'UPDATE_STATE'; payload: Cart[] };
 

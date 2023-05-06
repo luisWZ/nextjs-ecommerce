@@ -5,8 +5,8 @@ import { useContext, useEffect } from 'react';
 import { CartList, OrderSummary } from '@/cart';
 import { CartContext } from '@/context';
 import { ShopLayout } from '@/layouts';
+import { routes } from '@/lib';
 import { FullScreenLoading } from '@/ui';
-import { routes } from '@/utils';
 
 const CartPage = () => {
   const { cart, itemCount, isInitialized } = useContext(CartContext);

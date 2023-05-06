@@ -18,7 +18,7 @@ import { useRouter } from 'next/router';
 import { ChangeEvent, useContext, useState } from 'react';
 
 import { CartContext, UIContext } from '@/context';
-import { routes } from '@/utils';
+import { routes } from '@/lib';
 
 import { NavLinks } from './ActiveLink';
 

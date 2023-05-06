@@ -7,7 +7,7 @@ import { CartList, OrderSummary } from '@/cart';
 import { FullScreenLoading } from '@/components/ui';
 import { CartContext } from '@/context';
 import { ShopLayout } from '@/layouts';
-import { routes } from '@/utils';
+import { routes } from '@/lib';
 
 const SummaryPage = () => {
   const { itemCount, isLoadingDeliveryAddress, deliveryAddress } = useContext(CartContext);

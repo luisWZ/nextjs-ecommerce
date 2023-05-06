@@ -3,9 +3,9 @@ import { Product } from '@prisma/client';
 
 import { useFetchApi } from '@/hooks';
 import { ShopLayout } from '@/layouts';
+import { routes } from '@/lib';
 import { ProductList } from '@/products';
 import { FullScreenLoading } from '@/ui';
-import { routes } from '@/utils';
 
 export default function Home() {
   const { data: products, isLoading } = useFetchApi<Product[]>({

@@ -6,8 +6,8 @@ import { ShopLayout } from '@/components/layouts';
 import { ItemCounter } from '@/components/ui';
 import { findManyProductslugs, findProductBySlug } from '@/database';
 import { useProductDetailPage } from '@/hooks';
+import { config, routes } from '@/lib';
 import { ProductSlideshow, SizeSelector } from '@/products';
-import { config, routes } from '@/utils';
 
 interface ProductDetailPageProps {
   product: Product;

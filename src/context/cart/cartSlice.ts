@@ -2,7 +2,7 @@ import Cookies from 'js-cookie';
 import { Dispatch } from 'react';
 
 import { Address, Cart, CartState } from '@/interface';
-import { cookie } from '@/utils';
+import { cookie } from '@/lib';
 
 import { CartActionType } from './cartReducer';
 

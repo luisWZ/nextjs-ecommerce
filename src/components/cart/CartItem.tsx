@@ -3,8 +3,9 @@ import NextLink from 'next/link';
 
 import { useCartItem } from '@/hooks';
 import { Cart } from '@/interface';
+import { routes } from '@/lib';
 import { ItemCounter } from '@/ui';
-import { moneyNoCents, routes } from '@/utils';
+import { moneyNoCents } from '@/utils';
 
 interface CartItemProps {
   item: Cart;

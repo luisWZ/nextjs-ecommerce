@@ -2,7 +2,7 @@ import Cookie from 'js-cookie';
 import { createContext, type PropsWithChildren, useEffect, useMemo, useReducer } from 'react';
 
 import { Address, CartState } from '@/interface';
-import { cookie } from '@/utils';
+import { cookie } from '@/lib';
 
 import { calculateAmountsAndTotalItems } from './cartHelpers';
 import { cartReducer } from './cartReducer';

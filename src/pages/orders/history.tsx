@@ -3,7 +3,7 @@ import { DataGrid, GridColDef /* , GridRowProps, GridValueGetterParams */ } from
 import NextLink from 'next/link';
 
 import { ShopLayout } from '@/layouts';
-import { routes } from '@/utils';
+import { routes } from '@/lib';
 
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'ID', width: 100 },

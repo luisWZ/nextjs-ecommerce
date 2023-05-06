@@ -1,5 +1,5 @@
 import { Cart, CartSummary } from '@/interface';
-import { config } from '@/utils';
+import { config } from '@/lib';
 
 export const calculateAmountsAndTotalItems = (cart: Cart[]): CartSummary => {
   let itemCount = 0;

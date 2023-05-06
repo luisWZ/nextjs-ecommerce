@@ -3,7 +3,7 @@ import { useContext, useState } from 'react';
 
 import { CartContext } from '@/context';
 import { Cart } from '@/interface';
-import { config } from '@/utils';
+import { config } from '@/lib';
 
 export const useProductDetailPage = (product: Product) => {
   const { images, title, price, inStock, slug, gender } = product;

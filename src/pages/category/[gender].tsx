@@ -4,8 +4,8 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 
 import { findManyProducts } from '@/database';
 import { ShopLayout } from '@/layouts';
+import { config, routes } from '@/lib';
 import { ProductList } from '@/products';
-import { config, routes } from '@/utils';
 
 interface CategoryPageProps {
   products: Product[];

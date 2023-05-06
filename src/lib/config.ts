@@ -16,10 +16,11 @@ export const cookie = {
 
 export const routes = {
   API_BASE_URL: '/api',
+  API_PRODUCTS: '/products',
   API_USER_LOGIN: '/user/login',
   API_USER_REGISTER: '/user/register',
   API_USER_VALIDATE: '/user/validate-user',
-  API_PRODUCTS: '/products',
+  EDGE_CHECKOUT: '/checkout',
   PAGE_HOME: '/',
   PAGE_CART_EMPTY: '/cart/empty',
   PAGE_CART: '/cart',
@@ -29,11 +30,10 @@ export const routes = {
   PAGE_CATEGORY: '/category',
   PAGE_CHECKOUT_ADDRESS: '/checkout/address',
   PAGE_CHECKOUT_SUMMARY: '/checkout/summary',
-  PAGE_CHECKOUT: '/checkout',
   PAGE_LOGIN: '/auth/login',
-  PAGE_REGISTER: '/auth/register',
   PAGE_ORDERS: '/orders',
   PAGE_PRODUCT: '/product',
+  PAGE_REGISTER: '/auth/register',
   PAGE_SEARCH: '/search',
   PUBLIC_PRODUCTS: '/products',
 } as const;

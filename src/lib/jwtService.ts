@@ -2,9 +2,10 @@ import { JWTPayload, jwtVerify, SignJWT } from 'jose';
 import isJWT from 'validator/lib/isJWT';
 
 import type { UserData } from '@/interface';
-import { config, messages } from '@/utils';
 
+import { config } from './config';
 import { logger } from './logger';
+import { messages } from './messages';
 
 export const createToken = async (user: UserData) => {
   const { role, email, name } = user;

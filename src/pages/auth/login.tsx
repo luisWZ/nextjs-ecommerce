@@ -7,7 +7,8 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { AuthContext } from '@/context';
 import { AuthLayout } from '@/layouts';
-import { isValidEmail, messages, routes } from '@/utils';
+import { messages, routes } from '@/lib';
+import { isValidEmail } from '@/utils';
 
 interface FormData {
   email: string;

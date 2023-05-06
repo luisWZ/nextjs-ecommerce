@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 import { findProductsBySearchTerm } from '@/database';
 import { logger } from '@/lib';
-import { messages } from '@/utils';
+import { messages } from '@/lib';
 
 import { SearchResponseData } from './searchResponseData';
 

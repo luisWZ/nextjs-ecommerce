@@ -4,7 +4,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 
 import { findManyProducts, findProductBySlugOrThrow } from '@/database';
 import { logger } from '@/lib';
-import { messages } from '@/utils';
+import { messages } from '@/lib';
 
 import { ProductsResponseData } from './productsResponseData';
 

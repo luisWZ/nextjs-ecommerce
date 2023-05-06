@@ -3,7 +3,7 @@ import { Product } from '@prisma/client';
 import NextLink from 'next/link';
 import { useState } from 'react';
 
-import { routes } from '@/utils';
+import { routes } from '@/lib';
 
 interface ProductCardProps {
   product: Product;

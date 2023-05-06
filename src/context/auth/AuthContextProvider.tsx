@@ -4,7 +4,7 @@ import { createContext, type PropsWithChildren, useEffect, useReducer } from 're
 
 import { UserApiResponse, UserData } from '@/interface';
 import { tesloApi } from '@/lib';
-import { cookie, routes } from '@/utils';
+import { cookie, routes } from '@/lib';
 
 import { authReducer } from './authReducer';
 import { AuthSlice, authSlice } from './authSlice';

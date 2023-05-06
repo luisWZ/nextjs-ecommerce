@@ -25,7 +25,7 @@ import { useRouter } from 'next/router';
 import { ChangeEvent, useContext, useEffect, useRef, useState } from 'react';
 
 import { AuthContext, UIContext } from '@/context';
-import { routes } from '@/utils';
+import { routes } from '@/lib';
 
 import { SideMenuAdmin } from './SideMenuAdmin';
 

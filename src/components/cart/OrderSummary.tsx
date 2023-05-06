@@ -2,7 +2,8 @@ import { Grid, Typography } from '@mui/material';
 import { useContext, /* useEffect, */ useMemo /* , useReducer */ } from 'react';
 
 import { CartContext } from '@/context';
-import { config, money } from '@/utils';
+import { config } from '@/lib';
+import { money } from '@/utils';
 
 /* import {
   initializeOrderSummaryState,

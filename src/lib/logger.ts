@@ -1,6 +1,6 @@
 import pino from 'pino';
 
-import { config } from '@/utils';
+import { config } from './config';
 
 const options = {
   transport: { target: 'pino-pretty', options: { colorize: true } },

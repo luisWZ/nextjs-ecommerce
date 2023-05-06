@@ -3,8 +3,8 @@ import isAlphanumeric from 'validator/lib/isAlphanumeric';
 import isEmail from 'validator/lib/isEmail';
 import isStrongPassword from 'validator/lib/isStrongPassword';
 
-import { config } from './config';
-import { messages } from './messages';
+import { config } from '../lib/config';
+import { messages } from '../lib/messages';
 
 export const isValidEmail = (email: string) => {
   return isEmail(email) ? undefined : capitalize(messages.FORM_EMAIL_INVALID);

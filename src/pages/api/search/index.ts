@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-import { messages } from '@/utils';
+import { messages } from '@/lib';
 
 import { SearchResponseData } from './searchResponseData';
 

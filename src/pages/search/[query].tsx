@@ -4,8 +4,8 @@ import { GetServerSideProps } from 'next';
 
 import { findManyProducts, findProductsBySearchTerm } from '@/database';
 import { ShopLayout } from '@/layouts';
+import { routes } from '@/lib';
 import { ProductList } from '@/products';
-import { routes } from '@/utils';
 
 interface SearchPageProps {
   products: Product[];

@@ -7,7 +7,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { CartContext } from '@/context';
 import { Address } from '@/interface';
 import { ShopLayout } from '@/layouts';
-import { cookie, messages, routes } from '@/utils';
+import { cookie, messages, routes } from '@/lib';
 
 const AddressPage = () => {
   const router = useRouter();

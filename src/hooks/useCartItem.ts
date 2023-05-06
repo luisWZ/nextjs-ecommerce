@@ -2,7 +2,7 @@ import { useContext, useEffect, useMemo, useState } from 'react';
 
 import { CartContext } from '@/context';
 import { Cart } from '@/interface';
-import { config } from '@/utils';
+import { config } from '@/lib';
 
 export const useCartItem = ({
   size,

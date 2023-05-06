@@ -8,7 +8,7 @@ import isStrongPassword from 'validator/lib/isStrongPassword';
 import { db, findUserByEmail } from '@/database';
 import type { UserData, UserLoginData } from '@/interface';
 import { createToken, logger, validateAndDecodeToken } from '@/lib';
-import { config, messages } from '@/utils';
+import { config, messages } from '@/lib';
 
 import { UserResponseData } from './userResponseData';
 

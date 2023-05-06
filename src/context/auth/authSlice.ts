@@ -5,7 +5,7 @@ import { Dispatch } from 'react';
 
 import { UserApiResponse } from '@/interface';
 import { tesloApi } from '@/lib';
-import { cookie, messages, routes } from '@/utils';
+import { cookie, messages, routes } from '@/lib';
 
 import { AuthActionType } from './authReducer';
 
