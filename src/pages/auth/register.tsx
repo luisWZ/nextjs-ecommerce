@@ -2,13 +2,14 @@ import { ErrorOutline } from '@mui/icons-material';
 import { Box, Button, capitalize, Chip, Grid, Link, TextField, Typography } from '@mui/material';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
+import { signIn } from 'next-auth/react';
 import { useContext, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { AuthContext } from '@/context';
 import { AuthLayout } from '@/layouts';
 import { messages, routes } from '@/lib';
-import { isValidEmail, isValidName, isValidPassword } from '@/utils';
+import { isValidEmail, isValidName, isValidPassword, retrieveSession } from '@/utils';
 
 interface FormData {
   name: string;
@@ -32,12 +33,12 @@ const RegisterPage = () => {
     if (typeof isValidLogin === 'string') {
       setShowError(isValidLogin);
       setTimeout(() => setShowError(false), 3000);
-
       return;
     }
 
-    const path = router.query.page?.toString() ?? '/';
-    router.replace(path);
+    // const path = router.query.page?.toString() ?? '/';
+    // router.replace(path);
+    await signIn('credentials', { email, password });
   };
 
   return (
@@ -143,3 +144,5 @@ const RegisterPage = () => {
 };
 
 export default RegisterPage;
+
+export const getServerSideProps = retrieveSession();

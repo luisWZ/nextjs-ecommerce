@@ -1,11 +1,9 @@
-import Cookies from 'js-cookie';
-import { useRouter } from 'next/router';
-import { createContext, type PropsWithChildren, useEffect, useReducer } from 'react';
+import { useSession } from 'next-auth/react';
+import { createContext, type PropsWithChildren, useEffect, useMemo, useReducer } from 'react';
 
-import { UserApiResponse, UserData } from '@/interface';
-import { tesloApi } from '@/lib';
-import { cookie, routes } from '@/lib';
+import { UserData } from '@/interface';
 
+import { validateCookieToken } from './authHelpers';
 import { authReducer } from './authReducer';
 import { AuthSlice, authSlice } from './authSlice';
 
@@ -25,25 +23,24 @@ export const AuthContext = createContext({} as ContextProps);
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [state, dispatch] = useReducer(authReducer, INITIAL_STATE);
-  const router = useRouter();
+  const { data: session, status } = useSession();
 
-  const { authLogin, authRegister, authLogout } = authSlice({
-    dispatch,
-    router,
-  });
+  const validateToken = useMemo(() => validateCookieToken(dispatch), [dispatch]);
+
+  const { authLogin, authRegister, authLogout } = useMemo(() => authSlice({ dispatch }), []);
 
   useEffect(() => {
-    if (!Cookies.get(cookie.TOKEN)) return;
+    if (status === 'authenticated') {
+      if (session.user) {
+        // console.log({ user: session.user });
+        dispatch({ type: 'AUTH_LOGIN', payload: session.user });
+      }
+    }
+  }, [status, session]);
 
-    tesloApi
-      .get<UserApiResponse>(routes.API_USER_VALIDATE)
-      .then(({ data }) => {
-        const { token, user } = data;
-        Cookies.set(cookie.TOKEN, token);
-        dispatch({ type: 'AUTH_LOGIN', payload: user });
-      })
-      .catch(() => Cookies.remove(cookie.TOKEN));
-  }, []);
+  useEffect(() => {
+    validateToken();
+  }, [validateToken]);
 
   return (
     <AuthContext.Provider

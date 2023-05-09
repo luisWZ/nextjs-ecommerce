@@ -1,6 +1,7 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { NextRouter } from 'next/router';
+import { signOut } from 'next-auth/react';
 import { Dispatch } from 'react';
 
 import { UserApiResponse } from '@/interface';
@@ -18,10 +19,9 @@ export type AuthSlice = {
 type AuthSliceArgs = {
   /* state: AuthState; */
   dispatch: Dispatch<AuthActionType>;
-  router: NextRouter;
 };
 
-export const authSlice = ({ dispatch, router }: AuthSliceArgs): AuthSlice => ({
+export const authSlice = ({ dispatch }: AuthSliceArgs): AuthSlice => ({
   authLogin: loginUser(dispatch, routes.API_USER_LOGIN),
 
   authRegister: loginUser(dispatch, routes.API_USER_REGISTER),
@@ -32,7 +32,7 @@ export const authSlice = ({ dispatch, router }: AuthSliceArgs): AuthSlice => ({
     Cookies.remove(cookie.ADDRESS);
 
     dispatch({ type: 'AUTH_LOGOUT' });
-    router.reload();
+    signOut();
   },
 });
 

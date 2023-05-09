@@ -41,6 +41,7 @@ main();
 async function loadUserData(): Promise<Prisma.Enumerable<Prisma.UserCreateManyInput>> {
   const SALT_ROUNDS = 10;
   const adminPassword = await bcrypt.hash('admin1', SALT_ROUNDS);
+  const clientPassword = await bcrypt.hash('lalala', SALT_ROUNDS);
 
   const users = [...Array(4)].map(() => {
     const firstName = faker.name.firstName();
@@ -61,6 +62,12 @@ async function loadUserData(): Promise<Prisma.Enumerable<Prisma.UserCreateManyIn
       name: 'Admin',
       password: adminPassword,
       role: 'ADMIN',
+    },
+    {
+      email: 'client@example.com',
+      name: 'Client',
+      password: clientPassword,
+      role: 'CLIENT',
     },
     ...users,
   ];

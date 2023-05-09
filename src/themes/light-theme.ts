@@ -62,16 +62,24 @@ export const lightTheme = createTheme({
             color: grey[900],
             ':hover': {
               backgroundColor: 'rgba(0,0,0,0.05)',
-              transition: 'all 0.3s ease-in-out',
+            },
+          },
+        },
+        {
+          props: { color: 'secondary' },
+          style: {
+            ':hover': {
+              backgroundColor: '#274494',
             },
           },
         },
       ],
       styleOverrides: {
         root: {
-          textTransform: 'none',
-          boxShadow: 'none',
           borderRadius: 10,
+          boxShadow: 'none',
+          textTransform: 'none',
+          transition: 'background-color 0.3s ease-in-out',
         },
       },
     },

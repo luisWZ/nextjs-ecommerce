@@ -1,9 +1,12 @@
 export const config = {
-  AUTH_SECRET: process.env.AUTH_SECRET,
+  AUTH_SECRET: process.env.NEXTAUTH_SECRET ?? '',
+  GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID ?? '',
+  GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET ?? '',
   NODE_ENV: process.env.NODE_ENV,
   MAX_CART_ITEMS_PER_SIZE: 10,
   NAME_MIN_LENGTH: 4,
   ONE_DAY: 86_400, // 60 * 60 * 24
+  ONE_MONTH: 2_592_000, // 60 * 60 * 24 * 30
   SALT_ROUNDS: 10,
   TAX_PERCENT: 8,
 };
@@ -27,7 +30,6 @@ export const routes = {
   PAGE_CATEGORY_KIDS: '/category/kids',
   PAGE_CATEGORY_MEN: '/category/men',
   PAGE_CATEGORY_WOMEN: '/category/women',
-  PAGE_CATEGORY: '/category',
   PAGE_CHECKOUT_ADDRESS: '/checkout/address',
   PAGE_CHECKOUT_SUMMARY: '/checkout/summary',
   PAGE_LOGIN: '/auth/login',
@@ -37,3 +39,8 @@ export const routes = {
   PAGE_SEARCH: '/search',
   PUBLIC_PRODUCTS: '/products',
 } as const;
+
+export const queryParam = {
+  PAGE: 'page',
+  SEARCH: 'q',
+};

@@ -1,26 +1,30 @@
 import { Box, Button, FormControl, Grid, MenuItem, TextField, Typography } from '@mui/material';
-import Cookies from 'js-cookie';
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { CartContext } from '@/context';
 import { Address } from '@/interface';
 import { ShopLayout } from '@/layouts';
-import { cookie, messages, routes } from '@/lib';
+import { messages, routes } from '@/lib';
 
-const AddressPage = () => {
+interface AddressPageProps {
+  address: Address;
+}
+
+const AddressPage = ({ address }: AddressPageProps) => {
   const router = useRouter();
   const { cartUpdateDeliveryAddress } = useContext(CartContext);
-  const [defaultValues] = useState<Address>(() => {
-    try {
-      return Cookies.get(cookie.ADDRESS) ? JSON.parse(Cookies.get(cookie.ADDRESS)!) : {};
-    } catch (error) {
-      return {} as Address;
-    }
-  });
+  // const [defaultValues] = useState<Address>(() => {
+  //   try {
+  //     return Cookies.get(cookie.ADDRESS) ? JSON.parse(Cookies.get(cookie.ADDRESS)!) : {};
+  //   } catch (error) {
+  //     return {} as Address;
+  //   }
+  // });
 
-  const { register, handleSubmit, formState } = useForm<Address>({ defaultValues });
+  const { register, handleSubmit, formState } = useForm<Address>({ defaultValues: address });
   const { errors } = formState;
 
   const onSubmit: SubmitHandler<Address> = async (data) => {
@@ -102,8 +106,8 @@ const AddressPage = () => {
                 select
                 variant="filled"
                 label="Country"
-                defaultValue={'MX'}
                 {...register('country', { required: messages.FORM_REQUIRED })}
+                defaultValue={formState.defaultValues?.country ?? 'MX'}
                 error={!!errors.country}
                 helperText={errors.country?.message}
               >
@@ -136,3 +140,11 @@ const AddressPage = () => {
 };
 
 export default AddressPage;
+
+export const getServerSideProps: GetServerSideProps = async ({ req }) => {
+  const { address = null } = req.cookies;
+
+  return {
+    props: { address: address ? JSON.parse(address) : {} },
+  };
+};
