@@ -24,17 +24,17 @@ export const userLogin = async (req: NextApiRequest, res: NextApiResponse<UserRe
 
     const user = (await findUserByEmail(email, { withPassword: true })) as UserLoginData;
 
-    const { role, name } = user;
+    const { id, role, name } = user;
 
-    const isValidPassword = await bcrypt.compare(password, user.password);
+    const isValidPassword = await bcrypt.compare(password, user.password ?? '');
 
     if (!isValidPassword) {
       return res.status(400).json({ message: messages.USER_INVALID_LOGIN });
     }
 
-    const token = await createToken({ role, email, name });
+    const token = await createToken({ id, role, email, name });
 
-    return res.status(200).json({ token, user: { email, role, name } });
+    return res.status(200).json({ token, user: { id, role, email, name } });
   } catch (error) {
     if ((error as PrismaClientKnownRequestError).code === 'P2025') {
       return res.status(400).json({ message: messages.USER_INVALID_LOGIN });
@@ -72,12 +72,12 @@ export const userRegister = async (req: NextApiRequest, res: NextApiResponse<Use
 
     const encryptedPassword = await bcrypt.hash(password, config.SALT_ROUNDS);
 
-    await db.user.create({
+    const { id } = await db.user.create({
       data: { email, password: encryptedPassword, name },
       select: { id: true },
     });
 
-    const user: UserData = { role: 'CLIENT', email, name };
+    const user: UserData = { id, role: 'CLIENT', email, name };
 
     const token = await createToken(user);
 

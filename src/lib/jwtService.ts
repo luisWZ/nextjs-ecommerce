@@ -8,12 +8,12 @@ import { logger } from './logger';
 import { messages } from './messages';
 
 export const createToken = async (user: UserData) => {
-  const { role, email, name } = user;
+  const { id, role, email, name } = user;
 
   try {
     if (!config.AUTH_SECRET) throw new Error(messages.AUTH_SECRET_MISSING);
 
-    return new SignJWT({ role, email, name })
+    return new SignJWT({ id, role, email, name })
       .setProtectedHeader({ alg: 'HS256' })
       .setIssuedAt()
       .sign(new TextEncoder().encode(config.AUTH_SECRET));

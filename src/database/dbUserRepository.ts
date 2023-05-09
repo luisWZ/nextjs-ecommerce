@@ -1,11 +1,13 @@
 import { Prisma } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 
-import { UserData } from '@/interface';
+import type { UserData, UserLoginData } from '@/interface';
 
 import { db } from './db';
 
-const selectUserLogin: Prisma.UserSelect = {
+const selectUserLogin: Required<
+  Pick<Prisma.UserSelect, 'id' | 'email' | 'role' | 'name' | 'password'>
+> = {
   id: true,
   email: true,
   role: true,
@@ -13,7 +15,7 @@ const selectUserLogin: Prisma.UserSelect = {
   password: true,
 };
 
-const selectUser: Prisma.UserSelect = {
+const selectUser: Required<Pick<Prisma.UserSelect, 'id' | 'email' | 'role' | 'name'>> = {
   id: true,
   email: true,
   role: true,
@@ -27,7 +29,7 @@ interface FindUserByEmailOptions {
 export const findUserByEmail = async (
   email: string,
   option: FindUserByEmailOptions = { withPassword: false }
-) => {
+): Promise<UserLoginData | UserData> => {
   return option.withPassword
     ? db.user.findFirstOrThrow({ where: { email }, select: selectUserLogin })
     : db.user.findFirstOrThrow({ where: { email }, select: selectUser });
@@ -36,25 +38,24 @@ export const findUserByEmail = async (
 export const validateUserEmailAndPassword = async ({
   email = '',
   password = '',
-}: Record<'email' | 'password', string>) => {
+}: Record<'email' | 'password', string>): Promise<UserData | null> => {
   const user = await db.user.findFirst({ where: { email }, select: selectUserLogin });
 
   if (!user) return null;
 
-  const isValidPassword = await bcrypt.compare(password, user.password!);
+  const isValidPassword = await bcrypt.compare(password, user.password ?? '');
 
   if (!isValidPassword) return null;
 
-  delete user.password;
   const { id, role, name } = user;
 
-  return { id, email, role, name } as UserData;
+  return { id, email, role, name };
 };
 
 export const createUserFromOAuth = async (
   oAuthEmail: string = '',
   oAuthName: string = 'client'
-) => {
+): Promise<UserData> => {
   // if (oAuthEmail === undefined) return null;
   let user = await db.user.findFirst({ where: { email: oAuthEmail }, select: selectUser });
 
@@ -67,5 +68,5 @@ export const createUserFromOAuth = async (
 
   const { id, email, role, name } = user;
 
-  return { id, email, role, name } as UserData;
+  return { id, email, role, name };
 };

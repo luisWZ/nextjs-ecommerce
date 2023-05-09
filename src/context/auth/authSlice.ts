@@ -1,6 +1,5 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { NextRouter } from 'next/router';
 import { signOut } from 'next-auth/react';
 import { Dispatch } from 'react';
 
