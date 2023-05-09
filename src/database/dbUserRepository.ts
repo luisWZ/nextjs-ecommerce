@@ -1,7 +1,9 @@
 import { Prisma } from '@prisma/client';
+import { PrismaClientUnknownRequestError } from '@prisma/client/runtime';
 import bcrypt from 'bcryptjs';
 
 import type { UserData, UserLoginData } from '@/interface';
+import { logger, messages } from '@/lib';
 
 import { db } from './db';
 
@@ -38,35 +40,44 @@ export const findUserByEmail = async (
 export const validateUserEmailAndPassword = async ({
   email = '',
   password = '',
-}: Record<'email' | 'password', string>): Promise<UserData | null> => {
-  const user = await db.user.findFirst({ where: { email }, select: selectUserLogin });
+}: Record<'email' | 'password', string>): Promise<UserData> => {
+  try {
+    const user = await db.user.findFirstOrThrow({ where: { email }, select: selectUserLogin });
 
-  if (!user) return null;
+    const isValidPassword = await bcrypt.compare(password, user.password);
 
-  const isValidPassword = await bcrypt.compare(password, user.password ?? '');
+    if (!isValidPassword) throw new Error(messages.USER_INVALID_PASSWORD_COMPARISON);
 
-  if (!isValidPassword) return null;
+    const { id, role, name } = user;
 
-  const { id, role, name } = user;
-
-  return { id, email, role, name };
+    return { id, email, role, name };
+  } catch (error) {
+    if (error instanceof PrismaClientUnknownRequestError) {
+      logger.error(error);
+    }
+    throw error;
+  }
 };
 
 export const createUserFromOAuth = async (
   oAuthEmail: string = '',
   oAuthName: string = 'client'
 ): Promise<UserData> => {
-  // if (oAuthEmail === undefined) return null;
-  let user = await db.user.findFirst({ where: { email: oAuthEmail }, select: selectUser });
+  try {
+    if (oAuthEmail === '') throw new Error(messages.USER_INVALID_EMAIL);
 
-  if (!user) {
-    user = await db.user.create({
-      data: { email: oAuthEmail, role: 'CLIENT', name: oAuthName },
-      select: selectUser,
-    });
+    const user = await db.user.findFirst({ where: { email: oAuthEmail }, select: selectUser });
+
+    return user
+      ? user
+      : db.user.create({
+          data: { email: oAuthEmail, password: '@', role: 'CLIENT', name: oAuthName },
+          select: selectUser,
+        });
+  } catch (error) {
+    if (error instanceof PrismaClientUnknownRequestError) {
+      logger.error(error);
+    }
+    throw error;
   }
-
-  const { id, email, role, name } = user;
-
-  return { id, email, role, name };
 };

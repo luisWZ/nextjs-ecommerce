@@ -15,5 +15,6 @@ export const messages = {
   USER_INVALID_NAME: 'no especial characters allowed',
   USER_INVALID_NAME_LENGTH: 'it should be at least 3 characters long',
   USER_INVALID_PASSWORD: 'password needs to be at least 6 characters long',
+  USER_INVALID_PASSWORD_COMPARISON: 'password do not match',
   USER_VALIDATION_FAIL: 'user validation was unsuccessful',
 };

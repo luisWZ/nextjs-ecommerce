@@ -15,11 +15,9 @@ export const authOptions: AuthOptions = {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        const user = await validateUserEmailAndPassword(credentials!);
-
-        if (user) {
-          return user;
-        } else {
+        try {
+          return validateUserEmailAndPassword(credentials!);
+        } catch (error) {
           return null;
         }
       },
@@ -51,7 +49,11 @@ export const authOptions: AuthOptions = {
 
         switch (account.type) {
           case 'oauth':
-            token.user = await createUserFromOAuth(user.email!, user.name!);
+            try {
+              token.user = await createUserFromOAuth(user.email ?? '', user.name ?? '');
+            } catch (error) {
+              token.user = null;
+            }
             break;
 
           case 'credentials':
