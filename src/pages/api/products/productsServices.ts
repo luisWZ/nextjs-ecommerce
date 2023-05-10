@@ -1,5 +1,5 @@
 import { Gender, Prisma } from '@prisma/client';
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { findManyProducts, findProductBySlugOrThrow } from '@/database';

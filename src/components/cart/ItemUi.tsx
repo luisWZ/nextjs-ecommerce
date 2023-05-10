@@ -1,25 +1,33 @@
 import { Box, Button, CardActionArea, CardMedia, Grid, Link, Typography } from '@mui/material';
 import NextLink from 'next/link';
 
-import { useCartItem } from '@/hooks';
-import { Cart } from '@/interface';
 import { routes } from '@/lib';
 import { ItemCounter } from '@/ui';
 import { moneyNoCents } from '@/utils';
 
-interface CartItemProps {
-  item: Cart;
-  editable: boolean;
+interface ItemUiProps {
+  item: {
+    slug: string;
+    image: string;
+    title: string;
+    size?: string;
+    price: number;
+    quantity: number;
+  };
+  itemType: 'CART' | 'ORDER_ITEM';
+  editable?: boolean;
+  modifyQuantity?: (operation: '-' | '+') => () => void;
+  cartRemoveProduct?: (item: { slug: string; size: string }) => () => void;
 }
 
-export const CartItem = ({ item, editable }: CartItemProps) => {
-  const { slug, image, title, size, price /* , inStock */ } = item;
-
-  const { cartRemoveProduct, quantity, modifyQuantity } = useCartItem({
-    size,
-    slug,
-    quantity: item.quantity,
-  });
+export const ItemUi = ({
+  item,
+  itemType,
+  editable = false,
+  modifyQuantity,
+  cartRemoveProduct,
+}: ItemUiProps) => {
+  const { slug, image, title, size = '', price, quantity } = item;
 
   return (
     <Grid container spacing={2} mb={1} className="fadeIn">
@@ -40,15 +48,12 @@ export const CartItem = ({ item, editable }: CartItemProps) => {
         <Box display="flex" flexDirection="column">
           <Typography variant="body1">{title}</Typography>
 
-          {/* <Typography variant="body1">inStock: {inStock}</Typography> */}
-          {/* <Typography variant="body1">stockAvailable: {stockAvailable}</Typography> */}
-
           <Typography variant="body1">
             Size: <small style={{ fontWeight: 'bold' }}>{size}</small>
           </Typography>
 
-          {editable ? (
-            <ItemCounter modifyQuantity={modifyQuantity} quantity={quantity} />
+          {editable && itemType === 'CART' ? (
+            <ItemCounter modifyQuantity={modifyQuantity!} quantity={quantity} />
           ) : (
             <Typography>
               {quantity} {quantity > 1 ? 'items' : 'item'}
@@ -58,8 +63,8 @@ export const CartItem = ({ item, editable }: CartItemProps) => {
       </Grid>
       <Grid item xs={2} display="flex" alignItems="center" flexDirection="column">
         <Typography variant="subtitle1">{moneyNoCents(price)}</Typography>
-        {editable ? (
-          <Button onClick={cartRemoveProduct(item)} variant="text" color="secondary">
+        {editable && itemType === 'CART' ? (
+          <Button onClick={cartRemoveProduct!({ size, slug })} variant="text" color="secondary">
             Remove
           </Button>
         ) : null}

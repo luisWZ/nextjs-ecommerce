@@ -9,6 +9,7 @@ export type Cart = Pick<Product, 'price' | 'slug' | 'gender' | 'title' | 'inStoc
 };
 
 export interface CartState {
+  isCreatingOrder: boolean;
   isInitialized: boolean;
   cart: Cart[];
   itemCount: number;

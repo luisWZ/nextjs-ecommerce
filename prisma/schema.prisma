@@ -83,28 +83,29 @@ enum Gender {
 
 model Order {
   id              String      @id @default(auto()) @map("_id") @db.ObjectId
-  user            User        @relation(fields: [userId], references: [id])
   userId          String      @db.ObjectId
   orderItems      OrderItem[]
   deliveryAddress Address
+  itemCount       Int
+  subTotal        Float
+  tax             Float
+  total           Float
   paymentResult   String?
-  numberOfItems   Int
-  subTotal        Int
-  tax             Int
-  total           Int
-  isPaid          Boolean
-  paidAt          String?
+  isPaid          Boolean     @default(false)
+  paidAt          Int?
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
+  User            User        @relation(fields: [userId], references: [id])
 
   @@index([userId])
 }
 
 type OrderItem {
-  title    String
-  size     ValidSizes
-  quantity Int
-  slug     String
-  images   String
   price    Int
+  slug     String
+  gender   String
+  title    String
+  quantity Int
+  size     ValidSizes
+  image    String
 }

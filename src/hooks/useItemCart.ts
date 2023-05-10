@@ -4,7 +4,7 @@ import { CartContext } from '@/context';
 import { Cart } from '@/interface';
 import { config } from '@/lib';
 
-export const useCartItem = ({
+export const useItemCart = ({
   size,
   slug,
   quantity: itemQuantity,

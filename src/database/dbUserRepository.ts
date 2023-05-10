@@ -1,5 +1,5 @@
 import { Prisma } from '@prisma/client';
-import { PrismaClientUnknownRequestError } from '@prisma/client/runtime';
+import { PrismaClientUnknownRequestError } from '@prisma/client/runtime/library';
 import bcrypt from 'bcryptjs';
 
 import type { UserData, UserLoginData } from '@/interface';

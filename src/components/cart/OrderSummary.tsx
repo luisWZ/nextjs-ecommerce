@@ -1,30 +1,24 @@
 import { Grid, Typography } from '@mui/material';
-import { useContext, /* useEffect, */ useMemo /* , useReducer */ } from 'react';
+import { Order } from '@prisma/client';
+import { useContext, useMemo } from 'react';
 
 import { CartContext } from '@/context';
 import { config } from '@/lib';
 import { money } from '@/utils';
 
-/* import {
-  initializeOrderSummaryState,
-  orderSummaryInitialState,
-  orderSummaryReducer,
-} from './orderSummaryReducer'; */
+interface OrderSummaryProps {
+  order?: Order;
+}
 
-export const OrderSummary = () => {
+export const OrderSummary = ({ order }: OrderSummaryProps) => {
   const { itemCount, subTotal, tax, total } = useContext(CartContext);
 
-  /* const [{ amount, tax, total, totalItems }, dispatch] = useReducer(
-    orderSummaryReducer,
-    orderSummaryInitialState,
-    initializeOrderSummaryState(cart)
+  const orderSummary = order ? order : { itemCount, subTotal, tax, total };
+
+  const itemCountText = useMemo(
+    () => `${orderSummary.itemCount} item${orderSummary.itemCount > 1 ? 's' : ''}`,
+    [orderSummary.itemCount]
   );
-
-  useEffect(() => {
-    dispatch({ type: 'UPDATE_STATE', payload: cart });
-  }, [cart]); */
-
-  const itemCountText = useMemo(() => `${itemCount} item${itemCount > 1 ? 's' : ''}`, [itemCount]);
 
   return (
     <Grid container mt={2} className="fadeIn">
@@ -32,25 +26,25 @@ export const OrderSummary = () => {
         <Typography>Products</Typography>
       </Grid>
       <Grid item xs={6} display="flex" justifyContent="end" mt={0.5}>
-        <Typography>{!!itemCount && itemCountText}</Typography>
+        <Typography>{!!orderSummary.itemCount && itemCountText}</Typography>
       </Grid>
       <Grid item xs={6} mt={1}>
         <Typography>Subtotal</Typography>
       </Grid>
       <Grid item xs={6} display="flex" justifyContent="end" mt={1}>
-        <Typography>{money(subTotal)}</Typography>
+        <Typography>{money(orderSummary.subTotal)}</Typography>
       </Grid>
       <Grid item xs={6} mt={1}>
         <Typography>Tax ({config.TAX_PERCENT}%)</Typography>
       </Grid>
       <Grid item xs={6} display="flex" justifyContent="end" mt={1}>
-        <Typography>{money(tax)}</Typography>
+        <Typography>{money(orderSummary.tax)}</Typography>
       </Grid>
       <Grid item xs={6} mt={2}>
         <Typography variant="subtitle1">Total:</Typography>
       </Grid>
       <Grid item xs={6} mt={2} display="flex" justifyContent="end">
-        <Typography variant="subtitle1">{money(total)}</Typography>
+        <Typography variant="subtitle1">{money(orderSummary.total)}</Typography>
       </Grid>
     </Grid>
   );

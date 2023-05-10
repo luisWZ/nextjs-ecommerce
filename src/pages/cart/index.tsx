@@ -2,7 +2,7 @@ import { Box, Button, Card, CardContent, Divider, Grid, Typography } from '@mui/
 import { useRouter } from 'next/router';
 import { useContext, useEffect } from 'react';
 
-import { CartList, OrderSummary } from '@/cart';
+import { OrderList, OrderSummary } from '@/cart';
 import { CartContext } from '@/context';
 import { ShopLayout } from '@/layouts';
 import { routes } from '@/lib';
@@ -32,7 +32,7 @@ const CartPage = () => {
       </Typography>
       <Grid container className="fadeIn">
         <Grid item xs={12} sm={7}>
-          <CartList editable />
+          <OrderList editable />
         </Grid>
         <Grid item xs={12} sm={5}>
           <Card className="summary-card fadeIn">

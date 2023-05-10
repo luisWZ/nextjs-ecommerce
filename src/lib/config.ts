@@ -19,6 +19,7 @@ export const cookie = {
 
 export const routes = {
   API_BASE_URL: '/api',
+  API_ORDERS: '/orders',
   API_PRODUCTS: '/products',
   API_USER_LOGIN: '/user/login',
   API_USER_REGISTER: '/user/register',
@@ -34,6 +35,7 @@ export const routes = {
   PAGE_CHECKOUT_SUMMARY: '/checkout/summary',
   PAGE_LOGIN: '/auth/login',
   PAGE_ORDERS: '/orders',
+  PAGE_ORDERS_HISTORY: '/orders/history',
   PAGE_PRODUCT: '/product',
   PAGE_REGISTER: '/auth/register',
   PAGE_SEARCH: '/search',

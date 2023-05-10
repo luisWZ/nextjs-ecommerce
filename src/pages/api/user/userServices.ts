@@ -1,4 +1,4 @@
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import bcrypt from 'bcryptjs';
 import { NextApiRequest, NextApiResponse } from 'next';
 import isAlphanumeric from 'validator/lib/isAlphanumeric';
@@ -105,6 +105,6 @@ export const validateUser = async (req: NextApiRequest, res: NextApiResponse<Use
     return res.status(200).json({ token: newToken, user });
   } catch (error) {
     logger.error(error);
-    return res.status(401).json({ message: messages.USER_VALIDATION_FAIL });
+    return res.status(401).json({ message: messages.USER_UNAUTHORIZED });
   }
 };

@@ -9,6 +9,7 @@ import { cartReducer } from './cartReducer';
 import { CartSlices, cartSlices } from './cartSlice';
 
 const INITIAL_STATE: CartState = {
+  isCreatingOrder: false,
   isInitialized: false,
   cart: [],
   itemCount: 0,
@@ -64,6 +65,7 @@ export const CartProvider = ({ children }: PropsWithChildren) => {
     cartStockAvailablePerItem,
     cartModifyItemQuantity,
     cartUpdateDeliveryAddress,
+    cartCreateOrder
   } = cartSlices(state, dispatch);
 
   return (
@@ -75,6 +77,7 @@ export const CartProvider = ({ children }: PropsWithChildren) => {
         cartStockAvailablePerItem,
         cartModifyItemQuantity,
         cartUpdateDeliveryAddress,
+        cartCreateOrder,
       }}
     >
       {children}

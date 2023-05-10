@@ -99,7 +99,7 @@ export const SideMenu = () => {
                 </ListItemIcon>
                 <ListItemText primary={'Profile'} />
               </ListItemButton>
-              <ListItemButton>
+              <ListItemButton onClick={onClickNavigateTo(routes.PAGE_ORDERS_HISTORY)}>
                 <ListItemIcon>
                   <ConfirmationNumberOutlined />
                 </ListItemIcon>
@@ -150,7 +150,9 @@ export const SideMenu = () => {
               <ListItemText primary={'Log out'} />
             </ListItemButton>
           ) : (
-            <ListItemButton onClick={onClickNavigateTo(`${routes.PAGE_LOGIN}?page=${router.asPath}`)}>
+            <ListItemButton
+              onClick={onClickNavigateTo(`${routes.PAGE_LOGIN}?page=${router.asPath}`)}
+            >
               <ListItemIcon>
                 <VpnKeyOutlined />
               </ListItemIcon>
