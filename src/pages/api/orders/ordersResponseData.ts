@@ -1,3 +1,3 @@
 import { Order } from '@prisma/client';
 
-export type OrdersResponseData = { message: string } | Order;
+export type OrdersResponseData = { message: string } | { paypalToken: string } | Order;

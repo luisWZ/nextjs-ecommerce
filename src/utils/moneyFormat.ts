@@ -1,12 +1,14 @@
+import { config } from '@/lib';
+
 const numberFormat = new Intl.NumberFormat('en-US', {
   style: 'currency',
-  currency: 'USD',
+  currency: config.CURRENCY,
   minimumFractionDigits: 2,
 });
 
 const numberFormatNoCents = new Intl.NumberFormat('en-US', {
   style: 'currency',
-  currency: 'USD',
+  currency: config.CURRENCY,
   minimumFractionDigits: 0,
 });
 

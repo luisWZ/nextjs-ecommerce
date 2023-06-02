@@ -1,13 +1,14 @@
 import { OrderItem, Product } from '@prisma/client';
+import axios from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getToken } from 'next-auth/jwt';
 
 import { db } from '@/database';
-import { Cart, CartState } from '@/interface';
+import type { Cart, CartState, PaypalOrderStatusResponse } from '@/interface';
 import { config, logger, messages } from '@/lib';
 
 import { OrdersResponseData } from './ordersResponseData';
-import { calculateCartSummary } from './ordersServicesHelpers';
+import { calculateCartSummary, getPaypalBearerToken } from './ordersServicesHelpers';
 
 type CreateOrderBody = Pick<
   CartState,
@@ -89,6 +90,68 @@ export const createOneOrder = async (
       }
     }
 
+    return res.status(500).json({ message: messages.SERVER_ERROR });
+  }
+};
+
+export const payOrder = async (
+  { body }: NextApiRequest,
+  res: NextApiResponse<OrdersResponseData>
+) => {
+  // TODO: validate user session
+  // TODO: validate mongo id
+  // TODO: cha ge to payment intent and do all the work in the BE
+
+  try {
+    const token = await getPaypalBearerToken();
+
+    if (!token) throw new Error('Error creating Paypal token');
+
+    const { transactionId = '', orderId = '' } = body as Record<string, string>;
+
+    const { data } = await axios.get<PaypalOrderStatusResponse>(
+      `${config.PAYPAL_URL_ORDERS}/${transactionId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    if (data.status !== 'COMPLETED') {
+      return res.status(401).json({ message: 'Order could not be verified as completed' });
+    }
+
+    const order = await db.order.findUnique({ where: { id: orderId }, select: { total: true } });
+
+    if (!order) {
+      return res.status(400).json({ message: 'Order not found' });
+    }
+
+    if (
+      order.total !== Number(data.purchase_units[0].amount.value) &&
+      data.purchase_units[0].amount.currency_code === config.CURRENCY
+    ) {
+      return res
+        .status(400)
+        .json({ message: 'Amount paid through Paypal and order total is not the same' });
+    }
+
+    await db.order.update({
+      where: { id: orderId },
+      data: {
+        isPaid: true,
+        transactionId,
+      },
+    });
+
+    return res.status(200).json({ message: 'Order payment is complete' });
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      logger.error(error.response?.data);
+    } else {
+      logger.error(error);
+    }
     return res.status(500).json({ message: messages.SERVER_ERROR });
   }
 };

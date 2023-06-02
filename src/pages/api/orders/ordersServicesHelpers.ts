@@ -1,7 +1,8 @@
 import { Product } from '@prisma/client';
+import axios from 'axios';
 
-import { Cart, CartSummary } from '@/interface';
-import { config, messages } from '@/lib';
+import type { Cart, CartSummary, PaypalOAuthTokenResponse } from '@/interface';
+import { config, logger, messages } from '@/lib';
 
 export const calculateCartSummary = (cart: Cart[], products: Product[]): CartSummary => {
   let itemCount = 0;
@@ -20,4 +21,31 @@ export const calculateCartSummary = (cart: Cart[], products: Product[]): CartSum
   const total = subTotal + tax;
 
   return { itemCount, subTotal, tax, total };
+};
+
+export const getPaypalBearerToken = async (): Promise<string | null> => {
+  const body = new URLSearchParams('grant_type=client_credentials');
+  const base64Token = Buffer.from(
+    `${config.PAYPAL_CLIENT_ID}:${config.PAYPAL_SECRET}`,
+    'utf-8'
+  ).toString('base64');
+
+  try {
+    const { data } = await axios.post<PaypalOAuthTokenResponse>(config.PAYPAL_URL_OAUTH, body, {
+      headers: {
+        Authorization: `Basic ${base64Token}`,
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    });
+
+    return data.access_token;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      logger.error(error.response?.data);
+    } else {
+      logger.error(error);
+    }
+
+    return null;
+  }
 };

@@ -3,6 +3,11 @@ export const config = {
   GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID ?? '',
   GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET ?? '',
   NODE_ENV: process.env.NODE_ENV,
+  PAYPAL_CLIENT_ID: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID ?? '',
+  PAYPAL_SECRET: process.env.PAYPAL_SECRET ?? '',
+  PAYPAL_URL_OAUTH: process.env.PAYPAL_URL_OAUTH ?? '',
+  PAYPAL_URL_ORDERS: process.env.PAYPAL_URL_ORDERS ?? '',
+  CURRENCY: 'USD',
   MAX_CART_ITEMS_PER_SIZE: 10,
   NAME_MIN_LENGTH: 4,
   ONE_DAY: 86_400, // 60 * 60 * 24
@@ -20,6 +25,7 @@ export const cookie = {
 export const routes = {
   API_BASE_URL: '/api',
   API_ORDERS: '/orders',
+  API_ORDERS_PAY: '/orders/pay',
   API_PRODUCTS: '/products',
   API_USER_LOGIN: '/user/login',
   API_USER_REGISTER: '/user/register',

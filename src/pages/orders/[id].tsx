@@ -1,21 +1,57 @@
 import { CreditCardOffOutlined, CreditScoreOutlined } from '@mui/icons-material';
-import { Box, Card, CardContent, Chip, Divider, Grid, Typography } from '@mui/material';
+import {
+  Box,
+  Card,
+  CardContent,
+  Chip,
+  CircularProgress,
+  Divider,
+  Grid,
+  Typography,
+} from '@mui/material';
+import { PayPalButtons } from '@paypal/react-paypal-js';
 import { Order } from '@prisma/client';
 import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
 import { getSession } from 'next-auth/react';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import { OrderList, OrderSummary } from '@/cart';
 import { findOrderByIdAndUserId } from '@/database';
+import { PaypalOrderBodyResponse } from '@/interface';
 import { ShopLayout } from '@/layouts';
-import { routes } from '@/lib';
+import { routes, tesloApi } from '@/lib';
 
 interface OrderByIdPageProps {
   order: Order;
 }
 
 const OrderByIdPage = ({ order }: OrderByIdPageProps) => {
-  const { id, isPaid, itemCount, deliveryAddress, orderItems } = order;
+  const router = useRouter();
+  const [isPaying, setIsPaying] = useState(false);
+
+  const { id, isPaid, itemCount, deliveryAddress, orderItems, total } = order;
+
+  const onOrderCompleted = async (details: PaypalOrderBodyResponse) => {
+    if (details.status !== 'COMPLETED') {
+      return alert('Please try again'); // could improve
+    }
+
+    setIsPaying(true);
+
+    try {
+      await tesloApi.post(routes.API_ORDERS_PAY, {
+        transactionId: details.id,
+        orderId: id,
+      });
+
+      router.reload();
+    } catch (error) {
+      setIsPaying(false);
+      console.error(error);
+      alert('Please try again'); // could improve
+    }
+  };
 
   const productCountText = useMemo(
     () => `${itemCount} product${itemCount > 1 ? 's' : ''}`,
@@ -79,19 +115,27 @@ const OrderByIdPage = ({ order }: OrderByIdPageProps) => {
 
               <OrderSummary order={order} />
 
-              <Box mt={3}>
-                {isPaid ? (
-                  <Chip
-                    sx={{ my: 2 }}
-                    label="Purchase completed "
-                    variant="outlined"
-                    color="success"
-                    icon={<CreditScoreOutlined />}
-                  />
-                ) : (
-                  <Typography variant="h1">Pay</Typography>
-                )}
-              </Box>
+              {!isPaid ? (
+                <Box mt={3}>
+                  {isPaying ? (
+                    <Box display="flex" justifyContent="center" className="fadeIn">
+                      <CircularProgress />
+                    </Box>
+                  ) : (
+                    <PayPalButtons
+                      createOrder={(_data, actions) =>
+                        actions.order.create({
+                          purchase_units: [{ amount: { value: `${total}` } }],
+                        })
+                      }
+                      onApprove={(_data, actions) =>
+                        actions.order!.capture().then(onOrderCompleted)
+                      }
+                    />
+                  )}
+                </Box>
+              ) : null}
+              {/* TODO: Add purchase date instead of null */}
             </CardContent>
           </Card>
         </Grid>
