@@ -24,6 +24,8 @@ export const cookie = {
 
 export const routes = {
   API_BASE_URL: '/api',
+  API_ADMIN_USERS: '/admin/users',
+  API_ADMIN_ORDERS: '/admin/orders',
   API_ORDERS: '/orders',
   API_ORDERS_PAY: '/orders/pay',
   API_PRODUCTS: '/products',
@@ -31,7 +33,13 @@ export const routes = {
   API_USER_REGISTER: '/user/register',
   API_USER_VALIDATE: '/user/validate-user',
   EDGE_CHECKOUT: '/checkout',
+  EDGE_API_ADMIN: '/api/admin',
   PAGE_HOME: '/',
+  PAGE_ADMIN: '/admin',
+  PAGE_ADMIN_DASHBOARD: '/admin/dashboard',
+  PAGE_ADMIN_ORDERS: '/admin/orders',
+  PAGE_ADMIN_PRODUCTS: '/admin/products',
+  PAGE_ADMIN_USERS: '/admin/users',
   PAGE_CART_EMPTY: '/cart/empty',
   PAGE_CART: '/cart',
   PAGE_CATEGORY_KIDS: '/category/kids',

@@ -67,7 +67,7 @@ const OrderByIdPage = ({ order }: OrderByIdPageProps) => {
       {isPaid ? (
         <Chip
           sx={{ my: 2 }}
-          label="Purchase completed "
+          label="Payment completed "
           variant="outlined"
           color="success"
           icon={<CreditScoreOutlined />}
@@ -75,7 +75,7 @@ const OrderByIdPage = ({ order }: OrderByIdPageProps) => {
       ) : (
         <Chip
           sx={{ my: 2 }}
-          label="Pending payment"
+          label="Payment pending"
           variant="outlined"
           color="error"
           icon={<CreditCardOffOutlined />}
@@ -161,7 +161,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, query }) => 
 
   const order = await findOrderByIdAndUserId(id, session.user.id);
 
-  return order
+  return order && order.userId === session.user.id
     ? {
         props: { order },
       }

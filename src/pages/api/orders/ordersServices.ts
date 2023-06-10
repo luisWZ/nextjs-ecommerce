@@ -1,9 +1,14 @@
-import { OrderItem, Product } from '@prisma/client';
+import type { OrderItem, Product } from '@prisma/client';
 import axios from 'axios';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getToken } from 'next-auth/jwt';
 
-import { db } from '@/database';
+import {
+  createOrder,
+  findManyProductsPriceBySlug,
+  findOrderMarkAsPaid,
+  findOrderTotal,
+} from '@/database';
 import type { Cart, CartState, PaypalOrderStatusResponse } from '@/interface';
 import { config, logger, messages } from '@/lib';
 
@@ -48,10 +53,7 @@ export const createOneOrder = async (
 
     const productSlugs = cart.map(({ slug }) => slug);
 
-    const products = await db.product.findRaw({
-      filter: { slug: { $in: productSlugs } },
-      options: { projection: { slug: true, price: true } },
-    });
+    const products = await findManyProductsPriceBySlug(productSlugs);
 
     // logger.info({ products });
 
@@ -67,13 +69,11 @@ export const createOneOrder = async (
       throw new Error(messages.CART_SUMMARY_MISMATCH);
     }
 
-    const order = await db.order.create({
-      data: {
-        userId: session.user.id,
-        orderItems,
-        deliveryAddress,
-        ...cartSummary,
-      },
+    const order = await createOrder({
+      userId: session.user.id as string,
+      orderItems,
+      deliveryAddress,
+      cartSummary,
     });
 
     return res.status(201).json(order);
@@ -122,7 +122,7 @@ export const payOrder = async (
       return res.status(401).json({ message: 'Order could not be verified as completed' });
     }
 
-    const order = await db.order.findUnique({ where: { id: orderId }, select: { total: true } });
+    const order = await findOrderTotal(orderId);
 
     if (!order) {
       return res.status(400).json({ message: 'Order not found' });
@@ -137,13 +137,7 @@ export const payOrder = async (
         .json({ message: 'Amount paid through Paypal and order total is not the same' });
     }
 
-    await db.order.update({
-      where: { id: orderId },
-      data: {
-        isPaid: true,
-        transactionId,
-      },
-    });
+    await findOrderMarkAsPaid({ id: orderId, transactionId });
 
     return res.status(200).json({ message: 'Order payment is complete' });
   } catch (error) {

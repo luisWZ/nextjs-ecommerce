@@ -21,6 +21,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
+import { Role } from '@prisma/client';
 import { useRouter } from 'next/router';
 import { ChangeEvent, useContext, useEffect, useRef, useState } from 'react';
 
@@ -160,7 +161,7 @@ export const SideMenu = () => {
             </ListItemButton>
           )}
 
-          {user?.role === 'ADMIN' ? <SideMenuAdmin /> : null}
+          {user?.role === Role.ADMIN ? <SideMenuAdmin onClickNavigateTo={onClickNavigateTo} /> : null}
         </List>
       </Box>
     </Drawer>

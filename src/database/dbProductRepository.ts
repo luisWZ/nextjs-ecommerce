@@ -65,3 +65,16 @@ export const findProductBySlug = async (slug: string) => {
     select: selectProductDetails,
   });
 };
+
+export const findManyProductsPriceBySlug = (productSlugs: string[]) => {
+  return db.product.findRaw({
+    filter: { slug: { $in: productSlugs } },
+    options: { projection: { slug: true, price: true } },
+  });
+};
+
+export const countAllProducts = () => db.product.count();
+
+export const countOutOfStockProducts = () => db.product.count({ where: { inStock: 0 } });
+
+export const countLowStockProducts = () => db.product.count({ where: { inStock: { lte: 10 } } });

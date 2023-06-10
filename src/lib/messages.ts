@@ -10,6 +10,7 @@ export const messages = {
   FORM_REQUIRED: 'This is a required field',
   PRODUCT_NOT_FOUND: 'product not found',
   SEARCH_QUERY_ERROR: 'search query should have a value',
+  ROLE_INVALID: 'the role is not valid',
   SERVER_ERROR: 'internal server error',
   TOKEN_INVALID: 'the token is not valid',
   USER_DATA_ERROR: 'Something weird happened. Please try again',
@@ -20,5 +21,8 @@ export const messages = {
   USER_INVALID_NAME: 'no especial characters allowed',
   USER_INVALID_PASSWORD_COMPARISON: 'password do not match',
   USER_INVALID_PASSWORD: 'password needs to be at least 6 characters long',
+  USER_NOT_FOUND: 'user not found',
+  USER_ROLE_UPDATED: 'user role updated',
   USER_UNAUTHORIZED: 'User must be logged in',
+  UNAUTHORIZED_ACCESS: 'Unauthorized access',
 };

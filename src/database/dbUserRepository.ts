@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client';
+import { Prisma, Role } from '@prisma/client';
 import { PrismaClientUnknownRequestError } from '@prisma/client/runtime/library';
 import bcrypt from 'bcryptjs';
 
@@ -28,6 +28,10 @@ interface FindUserByEmailOptions {
   withPassword: boolean;
 }
 
+export const findAllUsers = async () => {
+  return db.user.findMany({ select: selectUser });
+};
+
 export const findUserByEmail = async (
   email: string,
   option: FindUserByEmailOptions = { withPassword: false }
@@ -44,7 +48,7 @@ export const validateUserEmailAndPassword = async ({
   try {
     const user = await db.user.findFirstOrThrow({ where: { email }, select: selectUserLogin });
 
-    const isValidPassword = await bcrypt.compare(password, user.password);
+    const isValidPassword = await bcrypt.compare(password, user.password!);
 
     if (!isValidPassword) throw new Error(messages.USER_INVALID_PASSWORD_COMPARISON);
 
@@ -80,4 +84,10 @@ export const createUserFromOAuth = async (
     }
     throw error;
   }
+};
+
+export const countAllUsers = () => db.user.count({ where: { role: 'CLIENT' } });
+
+export const updateUserRole = (id: string, role: Role) => {
+  return db.user.update({ where: { id }, data: { role } });
 };
