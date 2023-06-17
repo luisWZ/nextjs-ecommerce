@@ -2,7 +2,7 @@ import { Typography } from '@mui/material';
 import { Product } from '@prisma/client';
 import { GetServerSideProps } from 'next';
 
-import { findManyProducts, findProductsBySearchTerm } from '@/database';
+import { findManyProducts, findManyProductsBySearchTerm } from '@/database';
 import { ShopLayout } from '@/layouts';
 import { routes } from '@/lib';
 import { ProductList } from '@/products';
@@ -46,7 +46,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     };
   }
 
-  let products = await findProductsBySearchTerm(query);
+  let products = await findManyProductsBySearchTerm(query);
   const productsCount = products.length;
 
   // TODO: return other products when term return 0

@@ -9,6 +9,7 @@ export const messages = {
   FORM_EMAIL_INVALID: 'Please type a valid email',
   FORM_REQUIRED: 'This is a required field',
   PRODUCT_NOT_FOUND: 'product not found',
+  PRODUCT_IMG_MINIMUM: 'product needs at least 2 images',
   SEARCH_QUERY_ERROR: 'search query should have a value',
   ROLE_INVALID: 'the role is not valid',
   SERVER_ERROR: 'internal server error',

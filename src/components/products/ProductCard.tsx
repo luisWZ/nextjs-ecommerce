@@ -28,7 +28,12 @@ export const ProductCard = ({ product }: ProductCardProps) => {
     >
       <Card sx={inStock ? {} : { opacity: 0.66 }}>
         <CardActionArea>
-          <NextLink href={`${routes.PAGE_PRODUCT}/${slug}`} legacyBehavior passHref prefetch={false}>
+          <NextLink
+            href={`${routes.PAGE_PRODUCT}/${slug}`}
+            legacyBehavior
+            passHref
+            prefetch={false}
+          >
             <Link>
               {!inStock ? (
                 <Chip
@@ -46,7 +51,11 @@ export const ProductCard = ({ product }: ProductCardProps) => {
                 <CardMedia
                   onLoad={onMediaLoad}
                   component="img"
-                  image={`${routes.PUBLIC_PRODUCTS}/${images[1]}`}
+                  image={
+                    images[1].startsWith('https')
+                      ? images[1]
+                      : `${routes.PUBLIC_PRODUCTS}/${images[1]}`
+                  }
                   alt={title}
                   sx={{
                     position: 'absolute',
@@ -54,7 +63,15 @@ export const ProductCard = ({ product }: ProductCardProps) => {
                     transition: 'opacity 0.3s ease-out',
                   }}
                 />
-                <CardMedia component="img" image={`${routes.PUBLIC_PRODUCTS}/${images[0]}`} alt={title} />
+                <CardMedia
+                  component="img"
+                  image={
+                    images[0].startsWith('https')
+                      ? images[0]
+                      : `${routes.PUBLIC_PRODUCTS}/${images[0]}`
+                  }
+                  alt={title}
+                />
               </Box>
             </Link>
           </NextLink>

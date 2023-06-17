@@ -36,7 +36,7 @@ export const ItemUi = ({
           <Link>
             <CardActionArea>
               <CardMedia
-                image={`${routes.PUBLIC_PRODUCTS}/${image}`}
+                image={image.startsWith('https') ? image : `${routes.PUBLIC_PRODUCTS}/${image}`}
                 component="img"
                 sx={{ borderRadius: '4px' }}
               />

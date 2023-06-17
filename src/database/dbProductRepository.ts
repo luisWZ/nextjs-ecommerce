@@ -19,6 +19,8 @@ const selectProductDetails: Prisma.ProductSelect = {
   inStock: true,
   gender: true,
   sizes: true,
+  tags: true,
+  type: true,
 };
 
 export const findManyProductslugs = async () => {
@@ -29,7 +31,24 @@ export const findManyProductslugs = async () => {
   });
 };
 
-export const findProductsBySearchTerm = async (query: string) => {
+export const findManyProductsSortByTitle = async () => {
+  return db.product.findMany({
+    orderBy: { title: 'asc' },
+    select: {
+      id: true,
+      slug: true,
+      images: true,
+      title: true,
+      gender: true,
+      type: true,
+      inStock: true,
+      price: true,
+      sizes: true,
+    },
+  });
+};
+
+export const findManyProductsBySearchTerm = async (query: string) => {
   return db.product.findMany({
     where: {
       OR: [
@@ -66,11 +85,30 @@ export const findProductBySlug = async (slug: string) => {
   });
 };
 
+export const findProductById = async (id: string) => {
+  return db.product.findFirst({
+    where: { id },
+    select: { ...selectProductDetails, id: true },
+  });
+};
+
 export const findManyProductsPriceBySlug = (productSlugs: string[]) => {
   return db.product.findRaw({
     filter: { slug: { $in: productSlugs } },
     options: { projection: { slug: true, price: true } },
   });
+};
+
+export const findProductImages = (id: string) => {
+  return db.product.findUnique({ where: { id }, select: { images: true } });
+};
+
+export const updateOneProduct = async (id: string, data: Prisma.ProductUpdateInput) => {
+  return db.product.update({ where: { id }, data });
+};
+
+export const createOneProduct = (data: Prisma.ProductCreateInput) => {
+  return db.product.create({ data });
 };
 
 export const countAllProducts = () => db.product.count();

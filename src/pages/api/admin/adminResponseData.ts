@@ -1,6 +1,6 @@
-import { Order } from '@prisma/client';
+import type { Order, Product } from '@prisma/client';
 
-import { UserData } from '@/interface';
+import type { UserData } from '@/interface';
 
 export type AdminResponseData =
   | { message: string }
@@ -14,4 +14,7 @@ export type AdminResponseData =
       productsLowStock: number;
     }
   | UserData[]
-  | Order[];
+  | Order[]
+  | Product[]
+  | Product
+  | { image: string };

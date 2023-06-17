@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { findProductsBySearchTerm } from '@/database';
+import { findManyProductsBySearchTerm } from '@/database';
 import { logger } from '@/lib';
 import { messages } from '@/lib';
 
@@ -17,7 +17,7 @@ export const searchProducts = async (
   }
 
   try {
-    const products = await findProductsBySearchTerm(q);
+    const products = await findManyProductsBySearchTerm(q);
     return res.status(200).json(products);
   } catch (error) {
     logger.error(error);
